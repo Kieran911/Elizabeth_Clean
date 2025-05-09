@@ -116,7 +116,7 @@
   
   {% schema %}
     {
-        "name": "Navigational Bar",
+        "name": "Header",
         "settings": [
             {
                 "type": "text",
@@ -124,6 +124,13 @@
                 "label": "Title",
                 "default": "Menu",
                 "info": "This is the title for the mobile menu window"
+            },
+            {
+                "type": "link_list",
+                "id": "menu",
+                "label": "Header Menu",
+                "default": "main-menu",
+                "info": "This is the title for the menu"
             }
         ]
     }
