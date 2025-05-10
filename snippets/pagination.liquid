@@ -1,3 +1,6 @@
-{% if paginate.pages > 0 %}
-  Hello world
+{% if pagination.pages > 0 %}
+  <nav role="navigation" class="flex justify-center my-8">
+    <a href="{{ pagination.previous.url }}">{{ pagination.previous.title }}</a>
+    <a href="{{ pagination.next.url }}">{{ pagination.next.title }}</a>
+  </nav>
 {% endif %}
