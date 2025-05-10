@@ -1,4 +1,4 @@
-{% for block in section.block %}
+{% for block in section.blocks %}
     {% case block.type %}
       {% when 'article_title' %}
         <h1>
@@ -14,13 +14,12 @@
                 {{ article.published_at | date: '%Y-%m-%d' }}
             </time>
         {% endif %}
-      {% when 'article_image' %}
+      {% when 'featured_image' %}
         <img src="{{ article.image | image_url }}" width="400" height="200" alt="{{ article.image.alt }}">
       {% when 'article_content' %}
         <div class="">
             {{ article.content }}
         </div>
-      {% else %}
     {% endcase %}
 {% endfor %}
 
