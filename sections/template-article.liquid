@@ -1,22 +1,28 @@
-<h1>
-    {{ article.title }}
-</h1>
-
-{% if section.settings.enable_author %} 
-    <small> {{ article.author }}</small>
-{% endif %}
-
-{% if section.settings.enable_published_date %}
-    <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
-        {{ article.published_at | date: '%Y-%m-%d' }}
-    </time>
-{% endif %}
-
-<img src="{{ article.image | image_url }}" width="400" height="200" alt="{{ article.image.alt }}">
-
-<div class="">
-    {{ article.content }}
-</div>
+{% for block in section.block %}
+    {% case block.type %}
+      {% when 'article_title' %}
+        <h1>
+            {{ article.title }}
+        </h1>
+      {% when 'article_author' %}
+        {% if section.settings.enable_author %} 
+            <small> {{ article.author }}</small>
+        {% endif %}
+      {% when 'article_published_date' %}
+        {% if section.settings.enable_published_date %}
+            <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                {{ article.published_at | date: '%Y-%m-%d' }}
+            </time>
+        {% endif %}
+      {% when 'article_image' %}
+        <img src="{{ article.image | image_url }}" width="400" height="200" alt="{{ article.image.alt }}">
+      {% when 'article_content' %}
+        <div class="">
+            {{ article.content }}
+        </div>
+      {% else %}
+    {% endcase %}
+{% endfor %}
 
 {% schema %}
     {
@@ -34,6 +40,34 @@
                 "default": true,
                 "label": "Display Published date"
             }
-        ]
+        ],
+        "blocks":
+       [ 
+        {
+            "type": "article_title",
+            "name": "Title",
+            "limit": 1
+        }, 
+        {
+            "type": "article_author",
+            "name": "Author",
+            "limit": 1
+        },
+        {
+            "type": "article_published_date",
+            "name": "Published Date",
+            "limit": 1
+        },
+        {
+            "type": "featured_image",
+            "name": "Thumbnail",
+            "limit": 1
+        }, 
+        {
+            "type": "article_content",
+            "name": "Content",
+            "limit": 1
+        }
+       ]
     }
 {% endschema %}
