@@ -17,16 +17,10 @@
       "type": "contact-form",
       "name": "Contact Form",
       "settings": {}
-    },
-    "contact_form_xKeMBy": {
-      "type": "contact-form",
-      "name": "Contact Form",
-      "settings": {}
     }
   },
   "order": [
     "template",
-    "contact_form_Mx6K6p",
-    "contact_form_xKeMBy"
+    "contact_form_Mx6K6p"
   ]
 }
