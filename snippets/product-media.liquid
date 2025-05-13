@@ -1,4 +1,4 @@
-{% case media.media.type %}
+{% case media.media_type %}
   {% when 'image' %}
     <img
       src="{{ media | img_url: 'large' }}"
@@ -7,8 +7,15 @@
       class="w-full h-full object-cover"
       alt="{{ media.preview_image.alt }}"
     >
-  {% when second_value %}
+  {% when 'external_video' %}
+    {{ media | external_video_tag: class: 'w-full h-80 object-cover' }}
+
+  {% when 'video' %}
+    {{ media | video_tag: controls: true, class: 'w-full h-full object-cover' }}
+
+  {% when 'model' %}
+    {{ media | model_viewer_tag }}
 
   {% else %}
-
+    {{ media | media_tag }}
 {% endcase %}
