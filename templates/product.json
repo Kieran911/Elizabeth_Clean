@@ -1,8 +1,28 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-    "sections": {
-        "template": {
-            "type": "template-product"
-        }
+  "sections": {
+    "template": {
+      "type": "template-product",
+      "settings": {}
     },
-    "order": ["template"]
+    "contact_form_nGzcPj": {
+      "type": "contact-form",
+      "name": "Contact Form",
+      "settings": {
+        "title": "Contact us"
+      }
+    }
+  },
+  "order": [
+    "template",
+    "contact_form_nGzcPj"
+  ]
 }
