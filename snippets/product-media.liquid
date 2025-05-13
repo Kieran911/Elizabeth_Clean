@@ -1,1 +1,14 @@
-Hello world
+{% case media.media.type %}
+  {% when 'image' %}
+    <img
+      src="{{ media | img_url: 'large' }}"
+      width=""
+      height=""
+      class="w-full h-full object-cover"
+      alt="{{ media.preview_image.alt }}"
+    >
+  {% when second_value %}
+
+  {% else %}
+
+{% endcase %}
