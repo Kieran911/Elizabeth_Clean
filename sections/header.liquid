@@ -82,16 +82,8 @@
               | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900">'
             }}
           {% else %}
-            {{
-              'Log in '
-              | customer_login_link
-              | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
-            }}
-            {{
-              'Register'
-              | customer_register_link
-              | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
-            }}
+            <a href="account/login" class="text-base text-gray-500 hover:text-gray-900">Login</a>
+            <a href="{{ routes.account_register_url }}" class="text-base text-gray-500 hover:text-gray-900">Register</a>
           {% endif %}
         {% endif %}
       </div>
