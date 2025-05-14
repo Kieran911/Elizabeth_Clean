@@ -110,11 +110,10 @@
                           {% endfor %}
                         </select>
                       </div>
-
-                      <script type="application/json">
-                        {{ product.variants | json }}
-                      </script>
                     {% endfor %}
+                    <script type="application/json">
+                      {{ product.variants | json }}
+                    </script>
                   </variant-selector>
                 {% endunless %}
               </div>
@@ -177,13 +176,12 @@
       if (this.currentVariant) {
         this.updateURL();
         this.updateFormID();
-        this.updatePrice()
+        this.updatePrice();
       }
     }
 
     getSelectedOptions() {
       this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
-      console.log(this.options);
     }
 
     getVariantJSON() {
@@ -201,8 +199,6 @@
 
         if (findings) return variant;
       });
-
-      console.log(this.currentVariant);
     }
 
     updateURL() {
@@ -216,18 +212,17 @@
     }
 
     updatePrice() {
-      fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`);
-      .then((response) => response.text());
-      .then((responseText) => {
-        const id = `price-${this.dataset.section}`
-        const html = new DOMParser().parseFromString(responseText, 'text/html');
+      fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`)
+        .then((response) => response.text())
+        .then((responseText) => {
+          const id = `price-${this.dataset.section}`;
+          const html = new DOMParser().parseFromString(responseText, 'text/html');
 
-        const oldPrice = document.getElementById(id);
-        const newPrice = html.getElementById(id);
+          const oldPrice = document.getElementById(id);
+          const newPrice = html.getElementById(id);
 
-        if(oldPrice && newPrice) oldPrice.innerHTML = newPrice.innerHTML
-      })
-
+          if (oldPrice && newPrice) oldPrice.innerHTML = newPrice.innerHTML;
+        });
     }
   }
 
