@@ -9,4 +9,17 @@
       >Back to account</a
     >
   </div>
+  <div>
+    {% for line_item in order.line_items %}
+      <div class="w-full border border-gray-200 divide-y rounded-sm mb-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-12 p-4 md:p-12">
+          <div class="w-full min-h-80 bg-gray-200 rounded-md overflow-hdden">
+            {% if line_item.image %}
+              <img src="{{ line_item.image | img_url: 'medium' }}" width="" height="" alt="{{ line_item.image.alt }}">
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 </div>
