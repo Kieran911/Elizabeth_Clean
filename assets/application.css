@@ -697,6 +697,11 @@ video {
   margin-right: 1rem;
 }
 
+.my-12 {
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
 .-ml-5 {
   margin-left: -1.25rem;
 }
