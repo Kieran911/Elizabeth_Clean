@@ -11,7 +11,18 @@
       <div class="">
         {% paginate customer.orders by 10 %}
           {% for order in customer.orders %}
-            <div class="relative">{{ order.name }}</div>
+            <div class="relative">
+              <div class="w-full min-h-80 bg-gray-200 rounded-md overflow-hidden lg:h-80">
+                {% if order.line_items.first.image %}
+                  <img
+                    src="{{ order.line_items.first.image | img_url: 'medium' }}"
+                    alt="{{ order.line_items.first.image.alt }}"
+                    width=""
+                    height=""
+                  >
+                {% endif %}
+              </div>
+            </div>
           {% endfor %}
         {% endpaginate %}
       </div>
