@@ -13,7 +13,7 @@
     {% for line_item in order.line_items %}
       <div class="w-full border border-gray-200 divide-y rounded-sm mb-4">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 lg:gap-12 p-4 md:p-12">
-          <div class="w-full min-h-80 bg-gray-200 rounded-md overflow-hdden border">
+          <div class="w-full h-80 min-h-80 bg-gray-200 rounded-md overflow-hdden border">
             {% if line_item.image %}
               <img
                 class="w-full h-full object-center object-cover"
@@ -49,6 +49,11 @@
             <div class="text-gray-500 mb-4">
               {{ line_item.product.description | truncatewords: 20 }}
             </div>
+          </div>
+          <div>
+            <h1 class="font-medium mb-4">Delivery address</h1>
+
+            <div class="text-gray-500 mb-4">{{ order.shipping_address | format_address }}</div>
           </div>
         </div>
       </div>
