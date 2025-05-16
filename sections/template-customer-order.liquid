@@ -26,24 +26,26 @@
               {{ 'product-1' | placeholder_svg_tag: 'w-full h-full object-center object-cover' }}
             {% endif %}
           </div>
-          <h1 class="text-xl font-medium mb-4">{{ line_item.title | link_to: line_item.product.url }}</h1>
+          <div>
+            <h1 class="text-xl font-medium mb-4">{{ line_item.title | link_to: line_item.product.url }}</h1>
 
-          <table class="table-auto w-full mb-4">
-            <tbody>
-              <tr>
-                <td class="border border-gray-700 px-4 py-2">Price</td>
-                <td class="border border-gray-700 px-4 py-2">{{ line_item.original_line_price }}</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-700 px-4 py-2">Quantity</td>
-                <td class="border border-gray-700 px-4 py-2">{{ line_item.quantity }}</td>
-              </tr>
-              <tr>
-                <td class="border border-gray-700 px-4 py-2">Final price</td>
-                <td class="border border-gray-700 px-4 py-2">{{ line_item.final_line_price }}</td>
-              </tr>
-            </tbody>
-          </table>
+            <table class="table-auto w-full mb-4">
+              <tbody>
+                <tr>
+                  <td class="border border-gray-700 px-4 py-2">Price</td>
+                  <td class="border border-gray-700 px-4 py-2">{{ line_item.original_line_price | money }}</td>
+                </tr>
+                <tr>
+                  <td class="border border-gray-700 px-4 py-2">Quantity</td>
+                  <td class="border border-gray-700 px-4 py-2">{{ line_item.quantity }}</td>
+                </tr>
+                <tr>
+                  <td class="border border-gray-700 px-4 py-2">Final price</td>
+                  <td class="border border-gray-700 px-4 py-2">{{ line_item.final_line_price | money }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     {% endfor %}
