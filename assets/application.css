@@ -633,6 +633,10 @@ video {
   z-index: 10;
 }
 
+.order-last {
+  order: 9999;
+}
+
 .-m-3 {
   margin: -0.75rem;
 }
@@ -700,6 +704,11 @@ video {
 .my-12 {
   margin-top: 3rem;
   margin-bottom: 3rem;
+}
+
+.my-6 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
 }
 
 .-ml-5 {
@@ -1522,6 +1531,11 @@ video {
     margin-bottom: 4rem;
   }
 
+  .md\:my-12 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
   .md\:mr-20 {
     margin-right: 5rem;
   }
@@ -1592,6 +1606,11 @@ video {
   .md\:text-xl {
     font-size: 1.25rem;
     line-height: 1.75rem;
+  }
+
+  .md\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 }
 
