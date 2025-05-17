@@ -99,7 +99,19 @@
       <h1 class="font-medium mb-4">Billing address</h1>
       {{ order.billing_address | format_address }}
     </div>
-    <div></div>
+    <div>
+      <h1 class="font-medium mb-4">Payment information</h1>
+
+      {% for transaction in order.transactions %}
+        <div class="mb-4">
+          {% assign credit_card_company = transaction.payment_details.credit_card_company %}
+
+          {% if credit_card_company %}
+            <p>{{ credit_card_company }}</p>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
     <div></div>
   </div>
 </div>
