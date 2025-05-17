@@ -24,7 +24,18 @@
                 <td class="py-4 px-2 flex flex-col justify-center">
                   <a href="{{ item.url }}">
                     {% if item.image %}
-                      <img src="{{ item.image | img_url: 'small' }}" width="" height="" alt="{{ item.title | escape }}">
+                      <img
+                        src="{{ item.image | img_url: '300x300' }}"
+                        srcset="
+                          {{ item.image | img_url: '300x300' }} 1x,
+                          {{ item.image | img_url: '600x600' }} 2x
+                        "
+                        width="300"
+                        height="300"
+                        alt="{{ item.title | escape }}"
+                        class="w-full h-auto object-cover"
+                        loading="lazy"
+                      >
                     {% else %}
                       {{ 'product-1' | placeholder_svg_tag: 'w-20 h-20 object-cover border' }}
                     {% endif %}

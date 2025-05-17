@@ -870,6 +870,10 @@ video {
   height: 2.5rem;
 }
 
+.h-auto {
+  height: auto;
+}
+
 .min-h-80 {
   min-height: 20rem;
 }
