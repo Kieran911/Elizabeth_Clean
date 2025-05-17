@@ -105,9 +105,11 @@
       {% for transaction in order.transactions %}
         <div class="mb-4">
           {% assign credit_card_company = transaction.payment_details.credit_card_company %}
+          {% assign credit_card_last_four_digits = transaction.payment_details.credit_card_last_four_digits %}
 
           {% if credit_card_company %}
             <p>{{ credit_card_company }}</p>
+            <p>{{ credit_card_last_four_digits }}</p>
           {% endif %}
         </div>
       {% endfor %}
