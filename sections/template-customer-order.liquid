@@ -93,4 +93,13 @@
       </div>
     {% endfor %}
   </div>
+
+  <div class="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-12 border border-gray-200 rounded-sm p-4 md:p-12 my-6 bg-gray-50">
+    <div>
+      <h1 class="font-medium mb-4">Billing address</h1>
+      {{ order.billing_address | format_address }}
+    </div>
+    <div></div>
+    <div></div>
+  </div>
 </div>
