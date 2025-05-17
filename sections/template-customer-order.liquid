@@ -111,7 +111,16 @@
             <p>{{ credit_card_company }}</p>
             <p>{{ credit_card_last_four_digits }}</p>
 
-            <span class=" bg-gray-700 rounded-full text-sm px-4 py-1 text-white">{{ transaction.status_label }}</span>
+            {% case transaction.status_label %}
+              {% when 'Failure' %}
+                {% assign background = 'red' %}
+              {% else %}
+                {% assign background = 'green' %}
+            {% endcase %}
+
+            <span class=" bg-{{ background }}-700 rounded-full text-sm px-4 py-1 text-white">
+              {{- transaction.status_label -}}
+            </span>
           {% else %}
             <p class="text-sm mb-4">This order is manually placed by {{ shop.name }}</p>
           {% endif %}
