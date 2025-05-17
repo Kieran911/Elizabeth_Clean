@@ -16,7 +16,7 @@
           <div class="w-full h-80 min-h-80 bg-gray-200 rounded-md overflow-hdden border">
             {% if line_item.image %}
               <img
-                class="w-full h-full object-center object-cover"
+                class="w-full h-full object-center object-cover rounded-sm"
                 src="{{ line_item.image | img_url: '400x400' }}"
                 srcset="
                   {{ line_item.image | img_url: '400x400' }} 1x,
