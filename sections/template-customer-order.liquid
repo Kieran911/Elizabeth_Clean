@@ -17,10 +17,10 @@
             {% if line_item.image %}
               <img
                 class="w-full h-full object-center object-cover"
-                src="{{ line_item.image | image_url: '400x400' }}"
+                src="{{ line_item.image | img_url: '400x400' }}"
                 srcset="
-                  {{ line_item.image | image_url: '400x400' }} 1x,
-                  {{ line_item.image | image_url: '800x800' }} 2x
+                  {{ line_item.image | img_url: '400x400' }} 1x,
+                  {{ line_item.image | img_url: '800x800' }} 2x
                 "
                 width="400"
                 height="400"
