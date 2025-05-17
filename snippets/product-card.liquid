@@ -4,11 +4,18 @@
       {% if product.featured_image %}
         <div class="h-80 overflow-hidden">
           <img
-            src="{{ product.featured_image | img_url: 'medium' }}"
-            width="200"
-            height="150"
+            src="{{ product.featured_image | img_url: '1024x1024' }}"
+            srcset="
+              {{ product.featured_image | img_url: '360x360' }} 360w,
+              {{ product.featured_image | img_url: '720x720' }} 720w,
+              {{ product.featured_image | img_url: '1024x1024' }} 1024w
+            "
+            sizes="(max-width: 640px) 100vw, 50vw"
             alt="{{ product.featured_image.alt }}"
-            class="w-full h-full object-cover transition duration-1000 ease-in-out hover:scale-105 transform"
+            width="1024"
+            height="1024"
+            class="w-full h-auto object-cover transition duration-1000 ease-in-out hover:scale-105 transform"
+            loading="lazy"
           >
         </div>
       {% else %}
