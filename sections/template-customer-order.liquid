@@ -119,7 +119,7 @@
             {% endcase %}
 
             <span class=" bg-{{ background }}-700 rounded-full text-sm px-4 py-1 text-white">
-              {{- transaction.status_label -}}
+              {{ transaction.status_label }}
             </span>
           {% else %}
             <p class="text-sm mb-4">This order is manually placed by {{ shop.name }}</p>
