@@ -113,12 +113,12 @@
 
             {% case transaction.status_label %}
               {% when 'Failure' %}
-                {% assign background = 'red' %}
+                {% assign background = 'bg-red-700' %}
               {% else %}
-                {% assign background = 'green' %}
+                {% assign background = 'bg-green-700' %}
             {% endcase %}
 
-            <span class=" bg-{{ background }}-700 rounded-full text-sm px-4 py-1 text-white">
+            <span class=" {{ background }} rounded-full text-sm px-4 py-1 text-white">
               {{ transaction.status_label }}
             </span>
           {% else %}
