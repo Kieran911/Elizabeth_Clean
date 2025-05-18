@@ -167,7 +167,14 @@
               </div>
             </div>
 
-            <div class="w-full h-full fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50"></div>
+            <div class="w-full h-full fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto z-50">
+              <div class="relative max-w-md mx-auto bg-white top-20 bottom-20 p-4">
+                <div class="flex items-center justify-between mb-4">
+                  <h2 class="text-lg font-medium">Edit address</h2>
+                  <button class="text-gray-500">{% render 'icon-close' %}</button>
+                </div>
+              </div>
+            </div>
           </div>
         {% endfor %}
       </div>
