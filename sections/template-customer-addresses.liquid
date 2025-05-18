@@ -236,7 +236,7 @@
       if (addressesSelector.length < 1) return;
 
       addressesSelector.forEach((select) => {
-        select.addEventlistener('change', function (e) {
+        select.addEventListener('change', function (e) {
           console.log('Hello Again');
         });
       });
