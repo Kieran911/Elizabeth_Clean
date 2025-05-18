@@ -5,12 +5,7 @@
         <div class="w-full" style="max-height: 400px; overflow: hidden;">
           <img
             src="{{ product.featured_image | img_url: '1024x1024' }}"
-            srcset="
-              {{ product.featured_image | img_url: '360x360' }} 360w,
-              {{ product.featured_image | img_url: '720x720' }} 720w,
-              {{ product.featured_image | img_url: '1024x1024' }} 1024w
-            "
-            sizes="(max-width: 640px) 100vw, 50vw"
+
             width="1024"
             height="1024"
             alt="{{ product.featured_image.alt }}"

@@ -15,11 +15,16 @@
                   {% endif %}
 
                   <img
-                    src="{{ collection_image | img_url: 'medium' }}"
-                    width=""
-                    height=""
+                    src="{{ collection_image | img_url: '400x400' }}"
+                    srcset="
+                      {{ collection_image | img_url: '400x400' }} 1x,
+                      {{ collection_image | img_url: '800x800' }} 2x
+                    "
+                    width="400"
+                    height="400"
+                    loading="lazy"
                     alt="{{ collection.title | escape }}"
-                    class="w-full h-full object-cover transition duration-1000 ease-in-out transform hover:scale-105"
+                    class="w-full h-full object-cover rounded-sm transition duration-1000 ease-in-out transform hover:scale-105"
                   >
                 </div>
               </a>
