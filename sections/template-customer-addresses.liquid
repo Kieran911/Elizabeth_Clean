@@ -25,7 +25,13 @@
           <label for="address_fname_{{ form.id }}" class="uppercase text-gray-700 text-xs font-medium mb-2"
             >First name</label
           >
-          <input type="text" name="address[first_name]" id="address_fname_{{ form.id }}" value="{{ form.first_name }}">
+          <input
+            type="text"
+            class="w-full text-gray-700 border px-4 py-3 focus:outline-none"
+            name="address[first_name]"
+            id="address_fname_{{ form.id }}"
+            value="{{ form.first_name }}"
+          >
         </div>
       {% endform %}
     </div>
