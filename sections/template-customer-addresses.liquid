@@ -307,9 +307,18 @@
                       value="{{ form.phone }}"
                     >
                   </div>
+
+                  <div class="mb-4">
+                    {{ form.set_as_default_checkbox }}
+                    <label
+                      for="address_default_address_{{ form.id }}"
+                      class="uppercase text-gray-700 border px-4 py-3 focus:outline-none"
+                      >Set as default address</label
+                    >
+                  </div>
                   <div class="flex flex-row gap-2">
                     <button type="submit" class="w-full font-medium text-white bg-gray-700 hover:bg-gray-900 px-4 py-2">
-                      Create address
+                      Update address
                     </button>
                     <button type="reset" class="w-full font-medium text-gray-700 border border-gray-700 px-4 py-2">
                       Cancel
