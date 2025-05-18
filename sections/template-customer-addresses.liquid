@@ -368,7 +368,7 @@
         button.addEventListener('click', function (e) {
           let url = this.dataset.url;
 
-          document.querySelector(`form[action="${url}"]`);
+          console.log(document.querySelector(`form[action="${url}"]`));
         });
       });
     }
