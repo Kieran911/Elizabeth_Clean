@@ -8,4 +8,19 @@
       >Back to account</a
     >
   </div>
+  <div>
+    {% paginate customer.addresses by 10 %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-12 p-4 md:p-12">
+        {% for address in customer.addresses %}
+          <div>
+            <div class="relative flex flex-col text-center border p-2">
+              {% if address == customer.default_address %}
+                <span class="text-xs font-medium text-white bg-green-700 px-4 py-2">Default</span>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% endpaginate %}
+  </div>
 </div>
