@@ -186,14 +186,14 @@
       // console.log(allAddressesSelector);
 
       allAddressesSelector.forEach((select) => {
-        var selectedCountry = this.getSelectedCountry(select);
+        let selectedCountry = this.getSelectedCountry(select);
 
         if (!selectedCountry) return;
 
-        var provinces = selectedCountry.dataset.provinces;
-        var arrayOfProvince = JSON.parse(provinces);
+        let provinces = selectedCountry.dataset.provinces;
+        let arrayOfProvince = JSON.parse(provinces);
 
-        var provinceSelector = document.querySelector(`#address_province_${select.data - id}`);
+        let provinceSelector = document.querySelector(`#address_province_${select.data - id}`);
 
         if (arrayOfProvince.length < 1) {
           provinceSelector.setAttribute('disabled', 'disabled');
@@ -203,8 +203,8 @@
 
         provinceSelector.innerHTML = '';
 
-        var options = '';
-        for (var index = 0; index < arrayOfProvince.length; index++) {
+        let options = '';
+        for (let index = 0; index < arrayOfProvince.length; index++) {
           if (arrayOfProvince[index][0] === provinceSelector.getAttribute('value')) {
             options += `<option value="${arrayOfProvince[index][0]}" selected>${arrayOfProvince[index][0]}</option>`;
           } else {
@@ -217,8 +217,8 @@
     }
 
     getSelectedCountry(select) {
-      var option, selectedOption;
-      for (var index = 0; index < select.options.length; index++) {
+      let option, selectedOption;
+      for (let index = 0; index < select.options.length; index++) {
         option = select.options[index];
 
         if (option.value === select.getAttribute('value')) {
@@ -237,10 +237,11 @@
 
       addressesSelector.forEach((select) => {
         select.addEventListener('change', function (e) {
-          var provinces = this.options[this.selectedIndex].dataset.provinces;
+          const provinces = this.options[this.selectedIndex].dataset.provinces;
+          const arrayOfProvince = JSON.parse(provinces);
+          const provinceSelector = document.querySelector(`#address_province_${this.dataset.id}`);
 
-          var arrayOfProvince = JSON.parse(provinces);
-          var provinceSelector = document.querySelector(`#address_province_${this.dataset.id}`);
+          if (!provinceSelector) return;
 
           if (arrayOfProvince.length < 1) {
             provinceSelector.setAttribute('disabled', 'disabled');
@@ -249,9 +250,9 @@
           }
 
           provinceSelector.innerHTML = '';
-          var options = '';
-          for (var index = 0; index < arrayOfProvince.length; index++) {
-            options += `<option value="${arrayOfProvince[index][0]}" >${arrayOfProvince}[index][0]</option>`;
+          let options = '';
+          for (let index = 0; index < arrayOfProvince.length; index++) {
+            options += `<option value="${arrayOfProvince[index][0]}">${arrayOfProvince[index][0]}</option>`;
           }
 
           provinceSelector.innerHTML = options;
