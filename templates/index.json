@@ -13,7 +13,7 @@
       "type": "modal-window",
       "settings": {
         "redirect_collection": "",
-        "enable_modal": false
+        "enable_modal": true
       }
     },
     "featured-collection": {
