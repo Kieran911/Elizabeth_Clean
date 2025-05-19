@@ -69,8 +69,20 @@
         >
           {% render 'icon-search' %}
         </button>
-        <a href="{{ routes.cart_url }}" class="whitespace-nowrap text-gray-500 hover:text-gray-900">
+        <a
+          href="{{ routes.cart_url }}"
+          class="whitespace-nowrap text-gray-500 hover:text-gray-900 relative inline-block"
+        >
           {% render 'icon-shopping-bag' %}
+          {% if cart.item_count > 0 %}
+            <span
+              id="cart-count-badge"
+              style="font-size: 10px;"
+              class="absolute -top-1 -right-1 bg-red-700 text-white font-bold h-[14px] w-[14px] p-1 rounded-full flex items-center justify-center"
+            >
+              {{- cart.item_count -}}
+            </span>
+          {% endif %}
         </a>
 
         {% if shop.customer_accounts_enabled %}
@@ -159,6 +171,7 @@
     </div>
   </div>
 
+  {% comment %} SEARCH BAR {% endcomment %}
   <div x-show="searchBarOpen" class="w-full absolute top-0 bg-white border">
     <button type="button" x-on:click="searchBarOpen = false" class="absolute top-0 right-0 mr-5 mt-5 text-gray-500">
       {% render 'icon-close' %}
@@ -180,6 +193,25 @@
     </div>
   </div>
 </div>
+
+<script>
+  function updateCartCount() {
+    fetch('/cart.js')
+      .then((response) => response.json())
+      .then((cart) => {
+        const badge = document.getElementById('cart-count-badge');
+        if (badge) {
+          badge.textContent = cart.item_count;
+        }
+      });
+  }
+
+  document.addEventListener('product:added', function () {
+    updateCartCount();
+  });
+
+  document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
 
 {% schema %}
 {
