@@ -1,5 +1,5 @@
 {% if section.settings.enable_modal %}
-  {% assign target_collection = collections[section.settings.collection] %}
+  {% assign target_collection = collections[section.settings.redirect_collection] %}
 
   <div
     id="welcome-modal"
@@ -49,7 +49,11 @@
 {
   "name": "Modal Popup",
   "settings": [
-    { "type": "collection", "id": "collection", "label": "Redirect to this collection" },
+    {
+      "type": "collection",
+      "id": "redirect_collection",
+      "label": "Redirect to this collection"
+    },
     {
       "type": "checkbox",
       "id": "enable_modal",
@@ -57,7 +61,6 @@
       "default": true
     }
   ],
-
   "presets": [
     {
       "name": "Modal Popup"
