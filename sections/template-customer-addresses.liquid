@@ -186,7 +186,9 @@
                 </button>
               </div>
 
-              <form method="post" action="{{ address.url }}"></form>
+              <form method="post" action="{{ address.url }}">
+                <input type="hidden" name="_method" value="delete">
+              </form>
             </div>
 
             <div
@@ -368,7 +370,11 @@
         button.addEventListener('click', function (e) {
           let url = this.dataset.url;
 
-          console.log(document.querySelector(`form[action="${url}"]`));
+          let confirmation = window.confirm('Do you want to delete the address?');
+
+          if (confirmation) {
+            document.querySelector(`form[action="${url}"]`).submit();
+          }
         });
       });
     }
