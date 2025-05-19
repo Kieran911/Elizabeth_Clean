@@ -8,20 +8,25 @@
  * ------------------------------------------------------------
  */
 {
-    "sections": {
-        "featured-collection": {
-            "type": "featured-collection",
-            "settings": {
-                "featured_collection": "all",
-                "collection": "frontpage"
-            }
-        },
-        "modal-window": {
-            "type": "modal-window",
-            "settings": {
-                "collection": "frontpage"
-            }
-        }
+  "sections": {
+    "modal-window": {
+      "type": "modal-window",
+      "settings": {
+        "redirect_collection": "",
+        "enable_modal": false
+      }
     },
-    "order": ["modal-window", "featured-collection"]
+    "featured-collection": {
+      "type": "featured-collection",
+      "settings": {
+        "title": "Featured Collection",
+        "featured_collection": "all",
+        "number_of_products_to_show": 12
+      }
+    }
+  },
+  "order": [
+    "modal-window",
+    "featured-collection"
+  ]
 }
