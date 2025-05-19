@@ -3,9 +3,16 @@
         "featured-collection": {
             "type": "featured-collection",
             "settings": {
-                "featured_collection": "all"
+                "featured_collection": "all",
+                "collection": "frontpage"
+            }
+        },
+        "modal-window": {
+            "type": "modal-window",
+            "settings": {
+                "collection": "frontpage"
             }
         }
     },
-    "order": ["featured-collection"]
+    "order": ["modal-window", "featured-collection"]
 }

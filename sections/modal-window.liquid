@@ -1,0 +1,67 @@
+{% if section.settings.enable_modal %}
+  {% assign target_collection = collections[section.settings.collection] %}
+
+  <div
+    id="welcome-modal"
+    class="hidden h-full w-full fixed inset-0 z-50 bg-opacity-50 bg-gray-800 flex items-start justify-center"
+  >
+    <div class="bg-white mt-6 p-7 rounded-lg shadow-lg max-w-md text-center relative">
+      <button id="close-modal" class="p-2 absolute right-0 top-0">{% render 'icon-close' %}</button>
+      <h2 class="text-xl font-bold mb-2 mt-2 flex items-center justify-center">
+        Welcome to our store
+        <span class="text-red-500 ml-1">{% render 'icon-star' %}</span>
+      </h2>
+      <p class="mb-4">Enjoy a special 50% discount on your first purchase!!!</p>
+      <button id="redirect-modal" class="bg-red-600 text-white px-4 py-2 rounded">Shop now</button>
+    </div>
+  </div>
+
+  {% if target_collection %}
+    {% assign redirect_url = target_collection.url %}
+  {% else %}
+    {% assign redirect_url = '/collections/all' %}
+  {% endif %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = document.querySelector('#welcome-modal');
+      const closeBtn = document.querySelector('#close-modal');
+      const redirectBtn = document.querySelector('#redirect-modal');
+
+      if (!sessionStorage.getItem('visited')) {
+        modal.classList.remove('hidden');
+        sessionStorage.setItem('visited', 'true');
+      }
+
+      closeBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+      });
+
+      redirectBtn.addEventListener('click', () => {
+        modal.classList.add('hidden');
+        window.location.href = '{{ redirect_url }}';
+      });
+    });
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Modal Popup",
+  "settings": [
+    { "type": "collection", "id": "collection", "label": "Redirect to this collection" },
+    {
+      "type": "checkbox",
+      "id": "enable_modal",
+      "label": "Enable Modal",
+      "default": true
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Modal Popup"
+    }
+  ]
+}
+{% endschema %}
