@@ -1,0 +1,117 @@
+{% comment %} Cart modal window {% endcomment %}
+<div class="js-cart-sidebar fixed top-0 right-[-100%] w-full sm:w-[80vw] md:w-[60vw] lg:w-[40vw] xl:w-[35vw] h-full bg-white shadow-lg z-50 overflow-y-auto transition-all duration-900 ease">
+  {% if cart.item_count > 0 %}
+    <span class="js-close-icon absolute top-6 right-6 cursor-pointer text-xl hover:text-gray-600 transition-colors">
+      {%- render 'icon-close' -%}
+    </span>
+    <div class="border-b border-gray-200">
+      <h1 class="text-2xl font-semibold text-center tracking-wider py-8 px-8">Your Cart</h1>
+    </div>
+    <div class="py-6 px-4">
+      <form action="{{ routes.cart_url }}" method="post" id="cart-form">
+        {% for item in cart.items %}
+          <div class="flex items-center mb-4 border border-gray-200 bg-white w-full h-[120px] p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <div class="w-1/3 mr-3">
+              {% if item.image %}
+                <img
+                  src="{{ item.image | img_url: '1024x1024' }}"
+                  width="1024"
+                  height="1024"
+                  alt="{{ item.title }}"
+                  class="h-full w-full object-cover rounded-md"
+                  loading="lazy"
+                >
+              {% else %}
+                {{ 'product-1' | placeholder_svg_tag: 'w-20 h-20 object-cover border' }}
+              {% endif %}
+            </div>
+            <div class="w-2/3 pl-2 flex flex-col justify-between h-full">
+              <div class="flex justify-between items-start">
+                <p class="text-base font-medium text-gray-900">{{ item.title }}</p>
+                <button class="text-red-600 hover:text-red-700 transition-colors">
+                  <a
+                    href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0"
+                    class="text-sm font-medium text-red-500 hover:text-red-600"
+                    >Remove</a
+                  >
+                </button>
+              </div>
+              <div class="flex justify-between items-center">
+                <div class="flex items-center gap-2">
+                  <input
+                    type="number"
+                    name="updates[]"
+                    value="{{ item.quantity }}"
+                    min="1"
+                    id="updates_{{ forloop.index }}"
+                    class="w-14 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-200"
+                  >
+                  <button
+                    formnovalidate
+                    type="submit"
+                    name="update"
+                    class="px-3 py-2 border border-gray-600 font-medium hover:bg-gray-600 hover:text-white transition-colors rounded-md"
+                  >
+                    Update
+                  </button>
+                </div>
+                <p class="text-base font-semibold text-gray-900">{{ item.line_price | money }}</p>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </form>
+    </div>
+
+    <div class="border-t border-gray-200 px-4 py-6 bg-gray-50 sticky bottom-0">
+      <div class="flex justify-between items-center mb-4">
+        <h3 class="font-bold text-lg text-gray-900">
+          Subtotal (<span>{{ cart.item_count }}</span> items)
+        </h3>
+        <p class="text-xl font-semibold text-gray-900">{{ cart.total_price | money }}</p>
+      </div>
+      <div class="flex flex-col gap-3">
+        <button
+          type="submit"
+          name="checkout"
+          class="w-full p-3 border border-gray-900 font-medium bg-gray-900 text-white hover:bg-gray-800 transition-colors rounded-md"
+        >
+          Checkout
+        </button>
+        <a
+          href="{{ routes.cart_url }}"
+          class="w-full p-3 border border-gray-900 text-gray-900 text-center font-medium hover:bg-gray-100 transition-colors rounded-md"
+          >View Cart</a
+        >
+        <button class="w-full p-3 bg-yellow-500 text-white font-medium hover:bg-yellow-600 transition-colors rounded-md">
+          Paypal
+        </button>
+      </div>
+    </div>
+  {% else %}
+    <div class="text-center py-12 px-4">
+      <h1 class="text-3xl font-semibold text-gray-900 mb-6">Your cart is empty</h1>
+      <div class="my-4 py-4">
+        <a
+          href="{{ routes.all_products_collection_url }}"
+          class="inline-block border border-gray-900 text-gray-900 bg-white hover:bg-gray-100 px-8 py-3 rounded-md transition-colors"
+          >Continue shopping</a
+        >
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+  function updateCartCount() {
+    fetch('/cart.js')
+      .then((response) => response.json())
+      .then((cart) => {});
+  }
+
+  document.addEventListener('product:added', function () {
+    updateCartCount();
+  });
+
+  document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>

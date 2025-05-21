@@ -1,29 +1,15 @@
 {% assign main_menu_linklist = linklists[section.settings.menu].links %}
 
 <div class="relative bg-white" x-data="{ mobileMenuOpen: false, searchBarOpen: false }" x-cloak>
-  <div class="mx-auto px-4 sm:px-3">
+  <div class="mx-auto px-4 sm:px-6">
     <div class="flex justify-between items-center py-6 px-4 md:justify-start md:space-x-10">
       <!-- STORE NAME / STORE LOGO -->
-      <div class="-ml-2 md:ml-1 flex md:justify-start lg:flex-1 truncate">
+      <div class="flex justify-start lg:flex-1 truncate">
         <h1 class="text-xl font-bold truncate">{{ shop.name }}</h1>
       </div>
 
       <!-- Mobile menu button -->
       <div class="-mr-2 -my-2 ml-3 md:hidden">
-        <span
-          class="js-cart-btn whitespace-nowrap text-gray-500 hover:text-gray-900 relative inline-block mr-3"
-        >
-          {% render 'icon-shopping-bag' %}
-          {% if cart.item_count > 0 %}
-            <span
-              id="cart-count-badge"
-              style="font-size: 10px;"
-              class="absolute -top-2 -right-2 bg-red-500 text-white font-bold h-5 w-5 p-1 rounded-full flex items-center justify-center"
-            >
-              {{- cart.item_count -}}
-            </span>
-          {% endif %}
-        </span>
         <button
           x-on:click="mobileMenuOpen = true"
           type="button"
@@ -83,8 +69,9 @@
         >
           {% render 'icon-search' %}
         </button>
-        <span
-          class="js-cart-btn2 whitespace-nowrap text-gray-500 hover:text-gray-900 relative inline-block"
+        <a
+          href="{{ routes.cart_url }}"
+          class="whitespace-nowrap text-gray-500 hover:text-gray-900 relative inline-block"
         >
           {% render 'icon-shopping-bag' %}
           {% if cart.item_count > 0 %}
@@ -96,7 +83,7 @@
               {{- cart.item_count -}}
             </span>
           {% endif %}
-        </span>
+        </a>
 
         {% if shop.customer_accounts_enabled %}
           {% if customer %}
@@ -176,28 +163,6 @@
                     </a>
                   {% endif %}
                 {% endfor %}
-
-                {% if shop.customer_accounts_enabled %}
-                  {% if customer %}
-                    <a href="{{ routes.account_url }}" class="text-base text-gray-500 hover:text-gray-900">Account</a>
-                    {{
-                      'Log out'
-                      | customer_logout_link
-                      | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
-                    }}
-                  {% else %}
-                    {{
-                      'Log in'
-                      | customer_login_link
-                      | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
-                    }}
-                    {{
-                      'Register'
-                      | customer_register_link
-                      | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
-                    }}
-                  {% endif %}
-                {% endif %}
               </nav>
             </div>
           </div>
@@ -228,6 +193,25 @@
     </div>
   </div>
 </div>
+
+<script>
+  function updateCartCount() {
+    fetch('/cart.js')
+      .then((response) => response.json())
+      .then((cart) => {
+        const badge = document.getElementById('cart-count-badge');
+        if (badge) {
+          badge.textContent = cart.item_count;
+        }
+      });
+  }
+
+  document.addEventListener('product:added', function () {
+    updateCartCount();
+  });
+
+  document.addEventListener('DOMContentLoaded', updateCartCount);
+</script>
 
 {% schema %}
 {
