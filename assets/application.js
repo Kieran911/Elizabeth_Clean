@@ -106,6 +106,9 @@ document.querySelectorAll('form[action="/cart/add"]').forEach((form) => {
 });
 
 document.querySelectorAll('a[href="/cart"]').forEach((a) => {
+  // Skip the "View Cart" link in the cart drawer
+  if (a.closest('.cart-drawer')) return;
+
   a.addEventListener('click', (e) => {
     e.preventDefault();
     openCartDrawer();
