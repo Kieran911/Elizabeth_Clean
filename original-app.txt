@@ -1,0 +1,283 @@
+// Application.js file
+
+// --- Cart Drawer UI Toggle Logic ---
+const cartSidebar = document.querySelector('.js-cart-sidebar');
+const closeIcon = document.querySelector('.js-close-icon');
+const cartBtn = document.querySelector('.js-cart-btn');
+const cartBtn2 = document.querySelector('.js-cart-btn2'); // Assuming this is another button to open the cart
+
+/**
+ * Toggles the visibility of the cart sidebar.
+ * @param {boolean} isOpen - True to open, false to close.
+ */
+function toggleCartSidebar(isOpen) {
+    if (cartSidebar) {
+        if (isOpen) {
+            cartSidebar.classList.remove('right-[-100%]');
+            cartSidebar.classList.add('right-0');
+        } else {
+            cartSidebar.classList.remove('right-0');
+            cartSidebar.classList.add('right-[-100%]');
+        }
+    }
+}
+
+// Event listeners for opening the cart sidebar
+if (cartBtn) {
+    cartBtn.onclick = () => toggleCartSidebar(true);
+}
+if (cartBtn2) {
+    cartBtn2.onclick = () => toggleCartSidebar(true);
+}
+
+// Event listener for closing the cart sidebar
+if (closeIcon) {
+    closeIcon.onclick = () => toggleCartSidebar(false);
+}
+
+// --- Cart Data Fetching and UI Rendering ---
+
+/**
+ * Fetches the updated cart data, including the HTML for the cart drawer section.
+ * @returns {Promise<Object>} A promise that resolves with the cart data and sections.
+ */
+async function getUpdatedCart() {
+    try {
+        // Request the cart data and the 'cart-drawer' section HTML
+        const response = await fetch('/cart?sections=cart-drawer');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Error fetching updated cart:', error);
+        showNotification(`Error fetching cart: ${error.message}`, 'bg-red-500');
+        return null;
+    }
+}
+
+/**
+ * Updates the cart count badge in the header.
+ * @param {number} itemCount - The total number of items in the cart.
+ */
+function updateCartCountBadge(itemCount) {
+    const cartCountElement = document.querySelector('.cart-count-badge');
+    if (cartCountElement) {
+        cartCountElement.textContent = itemCount || 0;
+    }
+}
+
+/**
+ * Renders the updated cart drawer content and updates the cart count badge.
+ */
+async function renderCartDrawer() {
+    const updatedCart = await getUpdatedCart();
+    if (updatedCart && updatedCart.sections && updatedCart.sections['cart-drawer']) {
+        // Replace the entire content of the cart sidebar with the new HTML
+        if (cartSidebar) {
+            // Temporarily hide to prevent flickering during update
+            cartSidebar.innerHTML = updatedCart.sections['cart-drawer'];
+            // Re-attach event listeners for quantity updates and remove links
+            // This is crucial because the inner HTML has been replaced
+            attachCartDrawerEventListeners();
+        }
+        updateCartCountBadge(updatedCart.item_count); // Update the main cart count
+    } else {
+        // If cart is empty or section not found, clear content or show empty state
+        if (cartSidebar) {
+            // You might want to fetch a specific "empty cart" section or just clear it
+            // For now, if updatedCart is null or sections are missing, it implies an empty state or error
+            // We'll rely on the Liquid 'if cart.item_count > 0' logic within the fetched section
+            // to display the correct empty/full state.
+            // If the cart becomes empty, the fetched section will contain the 'Your cart is empty' message.
+            console.warn('Could not retrieve cart drawer section or cart is empty.');
+             // Optionally, if the cart is truly empty, ensure the empty state is shown
+             if (updatedCart && updatedCart.item_count === 0) {
+                 // You might need a separate fetch for an empty cart section if the main cart-drawer section doesn't handle it
+                 // For now, the existing logic in the Liquid snippet should cover it.
+             }
+        }
+        updateCartCountBadge(0); // Set count to 0 if cart is empty
+    }
+}
+
+/**
+ * Shows a temporary notification message.
+ * @param {string} message - The message to display.
+ * @param {string} bgColorClass - Tailwind background color class (e.g., 'bg-green-500', 'bg-red-500').
+ */
+function showNotification(message, bgColorClass) {
+    const notification = document.createElement('div');
+    notification.className = `fixed bottom-4 right-4 text-white px-4 py-2 rounded-md shadow-lg z-50 ${bgColorClass}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000); // Remove notification after 3 seconds
+}
+
+// --- Event Listeners for Cart Actions ---
+
+/**
+ * Attaches event listeners for quantity update buttons and remove links within the cart drawer.
+ * This needs to be called after the cart drawer HTML is re-rendered.
+ */
+function attachCartDrawerEventListeners() {
+    // Handle quantity updates (buttons with name="update")
+    const quantityUpdateButtons = cartSidebar.querySelectorAll('button[name="update"]');
+    quantityUpdateButtons.forEach((button) => {
+        // Remove any existing listeners to prevent duplicates
+        button.removeEventListener('click', handleQuantityUpdate);
+        button.addEventListener('click', handleQuantityUpdate);
+    });
+
+    // Handle item removal (buttons with class="remove-item-btn")
+    const removeButtons = cartSidebar.querySelectorAll('button.remove-item-btn');
+    removeButtons.forEach((button) => {
+        // Remove any existing listeners to prevent duplicates
+        button.removeEventListener('click', handleRemoveItemButton);
+        button.addEventListener('click', handleRemoveItemButton);
+    });
+}
+
+/**
+ * Handles the click event for quantity update buttons in the cart drawer.
+ * @param {Event} event - The click event.
+ */
+async function handleQuantityUpdate(event) {
+    event.preventDefault(); // Prevent the default button action (form submission)
+
+    const form = this.closest('form'); // Find the parent form of the clicked button
+    if (form) {
+        const formData = new FormData(form);
+        // Shopify's cart/update.js expects a specific format for updates[]
+        // We need to get the line index and the new quantity from the input field
+        const lineIndex = this.previousElementSibling.id.split('_')[1]; // e.g., 'updates_1' -> '1'
+        const newQuantity = this.previousElementSibling.value;
+
+        try {
+            const response = await fetch('/cart/update.js', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                },
+                body: JSON.stringify({
+                    updates: {
+                        [lineIndex]: newQuantity // Use the line index to update the specific item
+                    }
+                }),
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.description || 'Failed to update cart quantity');
+            }
+
+            const cart = await response.json();
+            console.log('Cart updated:', cart);
+            showNotification('Cart updated successfully!', 'bg-green-500');
+            await renderCartDrawer(); // Re-render the cart drawer with updated content
+        } catch (error) {
+            console.error('Error updating cart:', error);
+            showNotification(`Error updating cart: ${error.message}`, 'bg-red-500');
+        }
+    } else {
+        console.error('Could not find the parent form for the update button.');
+    }
+}
+
+/**
+ * Handles the click event for "Remove" buttons in the cart drawer.
+ * @param {Event} event - The click event.
+ */
+async function handleRemoveItemButton(event) {
+    event.preventDefault(); // Prevent the default button action
+
+    const button = event.currentTarget;
+    const line = button.dataset.line; // Get the line index from the data attribute
+
+    try {
+        const response = await fetch('/cart/change.js', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json',
+            },
+            body: JSON.stringify({
+                line: parseInt(line),
+                quantity: 0, // Set quantity to 0 to remove the item
+            }),
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.description || 'Failed to remove item from cart');
+        }
+
+        const cart = await response.json();
+        console.log('Item removed from cart:', cart);
+        showNotification('Item removed from cart!', 'bg-green-500');
+        await renderCartDrawer(); // Re-render the cart drawer with updated content
+    } catch (error) {
+        console.error('Error removing item:', error);
+        showNotification(`Error removing item: ${error.message}`, 'bg-red-500');
+    }
+}
+
+// --- Product Form Submission (Add to Cart) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const productForms = document.querySelectorAll('form[action="/cart/add"]');
+
+    productForms.forEach((form) => {
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the default form submission (page redirect)
+
+            const formData = new FormData(form);
+            // Shopify's /cart/add.js endpoint expects `items` array for multiple items
+            // or `id` and `quantity` for single item.
+            // Using `items` array is more robust.
+            const variantId = formData.get('id');
+            const quantity = formData.get('quantity') || 1;
+
+            try {
+                const response = await fetch('/cart/add.js', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        items: [
+                            {
+                                id: variantId,
+                                quantity: parseInt(quantity),
+                            },
+                        ],
+                    }),
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.description || 'Failed to add item to cart');
+                }
+
+                const data = await response.json(); // Response from /cart/add.js is the added item(s)
+                console.log('Product added to cart:', data);
+                showNotification('Product added to cart!', 'bg-green-500');
+
+                // --- UI Updates after successful addition ---
+                await renderCartDrawer(); // Update the cart drawer and count badge
+                toggleCartSidebar(true); // Open the cart drawer
+            } catch (error) {
+                console.error('Error adding to cart:', error);
+                showNotification(`Error: ${error.message}`, 'bg-red-500');
+            }
+        });
+    });
+
+    // Initial render of the cart drawer content and count on page load
+    // This ensures the cart state is accurate when the page first loads.
+    renderCartDrawer();
+});

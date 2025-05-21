@@ -1,5 +1,12 @@
 {% comment %} Cart modal window {% endcomment %}
-<div class="js-cart-sidebar fixed top-0 right-[-100%] w-full sm:w-[80vw] md:w-[60vw] lg:w-[40vw] xl:w-[35vw] h-full bg-white shadow-lg z-50 overflow-y-auto transition-all duration-900 ease">
+<div
+  class="js-cart-sidebar fixed top-0 right-[-100%] w-full sm:w-[80vw] md:w-[60vw] lg:w-[40vw] xl:w-[35vw] h-full bg-white shadow-lg z-50 transition-all duration-900 ease scrollbar-hide flex flex-col"
+>
+  <style>
+    .js-cart-sidebar::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
   {% if cart.item_count > 0 %}
     <span class="js-close-icon absolute top-6 right-6 cursor-pointer text-xl hover:text-gray-600 transition-colors">
       {%- render 'icon-close' -%}
@@ -7,10 +14,13 @@
     <div class="border-b border-gray-200">
       <h1 class="text-2xl font-semibold text-center tracking-wider py-8 px-8">Your Cart</h1>
     </div>
-    <div class="py-6 px-4">
+    <div
+      class="py-6 px-4 flex-grow overflow-y-auto scrollbar-hide"
+      style="-ms-overflow-style: none; scrollbar-width: none;"
+    >
       <form action="{{ routes.cart_url }}" method="post" id="cart-form">
         {% for item in cart.items %}
-          <div class="flex items-center mb-4 border border-gray-200 bg-white w-full h-[120px] p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+          <div class="flex items-center mb-4 border border-gray-200 bg-white w-full h-fit p-3 rounded-lg shadow-sm hover:shadow-md transition-shadow">
             <div class="w-1/3 mr-3">
               {% if item.image %}
                 <img
@@ -28,32 +38,19 @@
             <div class="w-2/3 pl-2 flex flex-col justify-between h-full">
               <div class="flex justify-between items-start">
                 <p class="text-base font-medium text-gray-900">{{ item.title }}</p>
-                <button class="text-red-600 hover:text-red-700 transition-colors">
-                  <a
-                    href="{{ routes.cart_change_url }}?line={{ forloop.index }}&quantity=0"
-                    class="text-sm font-medium text-red-500 hover:text-red-600"
-                    >Remove</a
-                  >
-                </button>
+                <a
+                  href="{{ routes.cart_url }}"
+
+                  class="px-1 py-2 border border-gray-600 font-medium hover:bg-gray-600 hover:text-white transition-colors rounded-md text-wrap text-center"
+                >
+                  {% render 'icon-shopping-bag' %}
+                </a>
               </div>
               <div class="flex justify-between items-center">
                 <div class="flex items-center gap-2">
-                  <input
-                    type="number"
-                    name="updates[]"
-                    value="{{ item.quantity }}"
-                    min="1"
-                    id="updates_{{ forloop.index }}"
-                    class="w-14 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-200"
-                  >
-                  <button
-                    formnovalidate
-                    type="submit"
-                    name="update"
-                    class="px-3 py-2 border border-gray-600 font-medium hover:bg-gray-600 hover:text-white transition-colors rounded-md"
-                  >
-                    Update
-                  </button>
+                  <p class="w-8 border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-200 text-center">
+                    {{ item.quantity }}
+                  </p>
                 </div>
                 <p class="text-base font-semibold text-gray-900">{{ item.line_price | money }}</p>
               </div>
@@ -63,7 +60,7 @@
       </form>
     </div>
 
-    <div class="border-t border-gray-200 px-4 py-6 bg-gray-50 sticky bottom-0">
+    <div class="border-t border-gray-200 px-4 py-6 bg-gray-50 w-full">
       <div class="flex justify-between items-center mb-4">
         <h3 class="font-bold text-lg text-gray-900">
           Subtotal (<span>{{ cart.item_count }}</span> items)
