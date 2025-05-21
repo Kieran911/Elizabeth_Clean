@@ -1,4 +1,6 @@
-<div class="w-full py-6 px-3">
+{% assign selected_variant = product.first_available_variant %}
+
+<div class="w-full pt-6 pb-4 px-3">
   <div class="border bg-white shadow-lg rounded-ld overflow-hidden">
     <a href="{{ product.url }}">
       {% if product.featured_image %}
@@ -19,12 +21,33 @@
       {% endif %}
     </a>
 
-    <div class="flex flex-col p-4">
+    <div class="flex flex-col p-4 pb-1">
       {% if section.settings.display_vendor %}
         <span class="text-sm text-gray-400">{{ product.vendor }}</span>
       {% endif %}
       <a class="text-gray-700 uppercase font-medium" href="{{ product.url }}">{{ product.title }}</a>
       <p class="text-gray-500">{{ product.price | money }}</p>
+
+      {% comment %} Add to cart button {% endcomment %}
+      {% form 'product', product %}
+        <input type="hidden" name="id" value="{{ selected_variant.id }}">
+        <div class="my-3 w-full flex items-center justify-center">
+          <button
+            type="submit"
+            name="add"
+            class="w-[70%] mx-auto mt-3 px-4 py-2 bg-gray-900 text-white hover:bg-gray-700 rounded-lg relative"
+            {% if selected_variant == false %}
+              disabled
+            {% endif %}
+          >
+            {% if selected_variant == false %}
+              Sold out
+            {% else %}
+              Add to cart
+            {% endif %}
+          </button>
+        </div>
+      {% endform %}
     </div>
   </div>
 </div>

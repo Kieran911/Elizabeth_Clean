@@ -10,20 +10,20 @@
 
       <!-- Mobile menu button -->
       <div class="-mr-2 -my-2 ml-3 md:hidden">
-        <span
+        <a
+          href="{{ routes.cart_url}}"
           class="js-cart-btn whitespace-nowrap text-gray-500 hover:text-gray-900 relative inline-block mr-3"
         >
           {% render 'icon-shopping-bag' %}
           {% if cart.item_count > 0 %}
             <span
-              id="cart-count-badge"
               style="font-size: 10px;"
-              class="absolute -top-2 -right-2 bg-red-500 text-white font-bold h-5 w-5 p-1 rounded-full flex items-center justify-center"
+              class="cart-count absolute -top-2 -right-2 bg-red-500 text-white font-bold h-5 w-5 p-1 rounded-full flex items-center justify-center"
             >
               {{- cart.item_count -}}
             </span>
           {% endif %}
-        </span>
+        </a>
         <button
           x-on:click="mobileMenuOpen = true"
           type="button"
@@ -83,20 +83,20 @@
         >
           {% render 'icon-search' %}
         </button>
-        <span
+        <a
+          href="{{ routes.cart_url}}"
           class="js-cart-btn2 whitespace-nowrap text-gray-500 hover:text-gray-900 relative inline-block"
         >
           {% render 'icon-shopping-bag' %}
           {% if cart.item_count > 0 %}
             <span
-              id="cart-count-badge"
               style="font-size: 10px;"
-              class="absolute -top-2 -right-2 bg-red-500 text-white font-bold h-5 w-5 p-1 rounded-full flex items-center justify-center"
+              class="cart-count absolute -top-2 -right-2 bg-red-500 text-white font-bold h-5 w-5 p-1 rounded-full flex items-center justify-center"
             >
               {{- cart.item_count -}}
             </span>
           {% endif %}
-        </span>
+        </a>
 
         {% if shop.customer_accounts_enabled %}
           {% if customer %}
