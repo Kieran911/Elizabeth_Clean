@@ -20,7 +20,7 @@
       "cart-drawer": {
         "type": "cart-drawer",
         "settings": {
-          "cart_drawer_modal": false
+          "cart_drawer_modal": true
         }
       }
     },
