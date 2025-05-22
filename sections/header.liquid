@@ -11,14 +11,20 @@
       </button>
       <!-- STORE NAME / STORE LOGO -->
       <h1 class="md:hidden text-xl font-bold absolute left-1/2 text-center -translate-x-1/2">
-        {{ shop.name }}
+        <a href="/">
+          {{ shop.name }}
+        </a>
       </h1>
       <div class="hidden md:flex md:ml-1 md:justify-start lg:flex-1 truncate">
-        <h1 class="text-xl font-bold truncate">{{ shop.name }}</h1>
+        <h1 class="text-xl font-bold truncate">
+          <a href="/">
+            {{ shop.name }}
+          </a>
+        </h1>
       </div>
 
       <!-- Mobile menu button -->
-      <div class="-mr-2 -my-2 ml-3 md:hidden">
+      <div class="-mr-2 -my-2 ml-1 md:hidden">
         <a
           href="{{ routes.cart_url}}"
           class="js-cart-btn whitespace-nowrap text-gray-500 hover:text-gray-900 relative inline-block mr-3"
@@ -36,7 +42,7 @@
         <button
           x-on:click="searchBarOpen = true"
           type="button"
-          class="whitespace-nowrap text-gray-500 hover:text-gray-900"
+          class="whitespace-nowrap text-gray-500 hover:text-gray-900 p-1"
         >
           {% render 'icon-search' %}
         </button>
