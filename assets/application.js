@@ -74,7 +74,6 @@ function addCartDrawerListeners() {
     .querySelectorAll('.cart-drawer-header-right-close, .cart-drawer')
     .forEach((el) => {
       el.addEventListener('click', () => {
-        console.log('closing drawer');
         closeCartDrawer();
       });
     });
