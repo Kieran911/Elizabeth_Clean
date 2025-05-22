@@ -16,6 +16,69 @@
         "enable_modal": true
       }
     },
+    "image_slider_test_xbQXxt": {
+      "type": "image-slider-test",
+      "blocks": {
+        "slide_x8PMgC": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/autumn-photographer-taking-picture_925x_321c3a4d-42ee-42c8-8e90-49d272c37f5d.jpg",
+            "title": "Slide Title",
+            "title_color": "#ffffff",
+            "description": "Add your description here",
+            "description_color": "#ffffff",
+            "show_first_button": true,
+            "first_button_text": "SEE MORE",
+            "first_button_link": "",
+            "show_second_button": true,
+            "second_button_text": "SUBSCRIBE",
+            "second_button_link": ""
+          }
+        },
+        "slide_4q4fEn": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/pexels-paggiarofrancesco-581087_e725292b-884f-4098-8652-49ec7728a7bb.jpg",
+            "title": "Slide Title",
+            "title_color": "#ffffff",
+            "description": "Add your description here",
+            "description_color": "#ffffff",
+            "show_first_button": true,
+            "first_button_text": "SEE MORE",
+            "first_button_link": "",
+            "show_second_button": true,
+            "second_button_text": "SUBSCRIBE",
+            "second_button_link": ""
+          }
+        },
+        "slide_H6mtct": {
+          "type": "slide",
+          "settings": {
+            "slide_image": "shopify://shop_images/pexels-chuchuphinh-1057064.jpg",
+            "title": "Maddox Wears",
+            "title_color": "#ffffff",
+            "description": "Your one stop store for fancy wears",
+            "description_color": "#ffffff",
+            "show_first_button": true,
+            "first_button_text": "Shop more",
+            "first_button_link": "shopify://collections/all",
+            "show_second_button": true,
+            "second_button_text": "SUBSCRIBE",
+            "second_button_link": "shopify://pages/contact"
+          }
+        }
+      },
+      "block_order": [
+        "slide_x8PMgC",
+        "slide_4q4fEn",
+        "slide_H6mtct"
+      ],
+      "name": "Image Content Slider",
+      "settings": {
+        "autoplay_speed": 8,
+        "transition_speed": 3
+      }
+    },
     "featured-collection": {
       "type": "featured-collection",
       "settings": {
@@ -27,6 +90,7 @@
   },
   "order": [
     "modal-window",
+    "image_slider_test_xbQXxt",
     "featured-collection"
   ]
 }
