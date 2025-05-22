@@ -1,3 +1,4 @@
+/* Mobile nav js code */
 document.addEventListener('DOMContentLoaded', () => {
   const mobileNavButton = document.querySelector('.mobile-nav-button');
   const mobileNavDiv = document.querySelector('.mobile-nav-div');
