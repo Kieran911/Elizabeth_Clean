@@ -13,7 +13,7 @@
       "type": "modal-window",
       "settings": {
         "redirect_collection": "frontpage",
-        "enable_modal": true
+        "enable_modal": false
       }
     },
     "image_slider_test_xbQXxt": {
