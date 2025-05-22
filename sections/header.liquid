@@ -1,10 +1,19 @@
 {% assign main_menu_linklist = linklists[section.settings.menu].links %}
 
 <div class="relative bg-white" x-data="{ mobileMenuOpen: false, searchBarOpen: false }" x-cloak>
-  <div class="mx-auto px-4 sm:px-3">
-    <div class="flex justify-between items-center py-6 px-4 md:justify-start md:space-x-10">
+  <div class="mx-auto sm:px-3">
+    <div class="flex justify-between items-center py-6 px-4 md:justify-start md:space-x-10 border-b">
+      <button
+        type="button"
+        class="md:hidden mobile-nav-button cursor-pointer bg-white p-2 inline-flex items-center justify-center focus:outline-none"
+      >
+        {% render 'icon-menu' %}
+      </button>
       <!-- STORE NAME / STORE LOGO -->
-      <div class="-ml-2 md:ml-1 flex md:justify-start lg:flex-1 truncate">
+      <h1 class="md:hidden text-xl font-bold absolute left-1/2 text-center -translate-x-1/2">
+        {{ shop.name }}
+      </h1>
+      <div class="hidden md:flex md:ml-1 md:justify-start lg:flex-1 truncate">
         <h1 class="text-xl font-bold truncate">{{ shop.name }}</h1>
       </div>
 
@@ -25,11 +34,11 @@
           {% endif %}
         </a>
         <button
-          x-on:click="mobileMenuOpen = true"
+          x-on:click="searchBarOpen = true"
           type="button"
-          class="bg-white p-2 inline-flex items-center justify-center focus:outline-none"
+          class="whitespace-nowrap text-gray-500 hover:text-gray-900"
         >
-          {% render 'icon-menu' %}
+          {% render 'icon-search' %}
         </button>
       </div>
 
@@ -122,83 +131,99 @@
       </div>
 
       <!-- MOBILE MENU -->
-      <div
-        x-show="mobileMenuOpen"
-        x-cloak
-        class="absolute z-10 top-0 inset-x-0 p-2 transform origin-top-left md:hidden"
-      >
-        <div class="shadow-lg rounded-lg ring-1 ring-black ring-opacity-5 bg-white w-full">
+      <div class="mobile-nav-div w-full h-full bg-opacity-50 bg-gray-800 fixed inset-0 z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="mobile-nav max-w-[70vw] h-full bg-white relative left-0 top-0 -translate-x-full transition-transform duration-300">
           <div class="p-5 divide-y-2 divide-gray-50">
             <!-- MOBILE MENU HEADER TITLE -->
             <div class="flex items-center justify-between pb-3">
               <div>
-                <h1 class="text-lg text-gray-500">{{ section.settings.mobile_menu_title }}</h1>
+                <h1 class="text-lg font-bold text-gray-500">{{ section.settings.mobile_menu_title }}</h1>
               </div>
               <div class="-mr-2">
-                <button x-on:click="mobileMenuOpen = false" type="button" class="bg-white rounded-md p-2 text-gray-500">
-                  {% render 'icon-close' %}
+                <button type="button" class="bg-white rounded-md p-2 text-gray-500">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-5"
+                  >
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg>
                 </button>
               </div>
             </div>
+            <div class="flex flex-col gap-y-6 pt-4">
+              {% for link in main_menu_linklist %}
+                {% if link.links != blank %}
+                  <button class="w-full flex items-center">
+                    <a href="#" class="underline text-gray-800 inline-flex items-center gap-1">
+                      {{ link.title }}
+                      <span class="inline-block plus-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
+                          <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
+                        </svg>
+                      </span>
+                    </a>
 
-            <!-- MOBILE NAV LINKS -->
-            <div class="pt-3">
-              <nav class="grid gap-y-7">
-                {% for link in main_menu_linklist %}
-                  {% if link.links != blank %}
-                    <div x-data="{ open: false }" class="relative">
-                      <button
-                        x-on:click="open = !open"
-                        type="button"
-                        class="text-base text-gray-500 hover:text-gray-900 flex items-center justify-between w-full"
-                      >
-                        <div>{{ link.title }}</div>
-                        {% render 'icon-dropdown' %}
-                      </button>
-
-                      <div x-show="open" x-cloak class="grid gap-y-7 py-3">
-                        {% for childlink in link.links %}
-                          <a
-                            href="{{ childlink.url }}"
-                            class="-m-3 p-3 mt-2 flex items-center rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-50"
+                    <div class="sublink-nav flex flex-col pt-7 pl-5 gap-y-5 items-start max-w-[70vw] w-full h-full bg-white absolute z-50 left-0 top-0 -translate-x-full transition-transform duration-300">
+                      <div class="flex justify-between w-full pr-4 mb-4">
+                        <span class="minus-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            class="size-6"
                           >
-                            <span class="ml-3 text-base font-medium text-gray-500">{{ childlink.title }}</span>
-                          </a>
+                            <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
+                          </svg>
+                        </span>
+
+                        <span class="close-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-5"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                          </svg>
+                        </span>
+                      </div>
+                      <div class="flex flex-col gap-y-6">
+                        {% for childlink in link.links %}
+                          <a href="{{ childlink.url }}" class="underline text-gray-800">{{ childlink.title }}</a>
                         {% endfor %}
                       </div>
                     </div>
-                  {% else %}
-                    <a
-                      href="{{ link.url }}"
-                      class="-m-3 p-3 flex items-center rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-50"
-                    >
-                      {{ link.title }}
-                    </a>
-                  {% endif %}
-                {% endfor %}
-
-                {% if shop.customer_accounts_enabled %}
-                  {% if customer %}
-                    <a href="{{ routes.account_url }}" class="text-base text-gray-500 hover:text-gray-900">Account</a>
-                    {{
-                      'Log out'
-                      | customer_logout_link
-                      | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
-                    }}
-                  {% else %}
-                    {{
-                      'Log in'
-                      | customer_login_link
-                      | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
-                    }}
-                    {{
-                      'Register'
-                      | customer_register_link
-                      | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
-                    }}
-                  {% endif %}
+                  </button>
+                {% else %}
+                  <button class="w-full flex items-center">
+                    <a href="{{ link.url }}" class="underline text-gray-800">{{ link.title }}</a>
+                  </button>
                 {% endif %}
-              </nav>
+              {% endfor %}
+
+              {% if shop.customer_accounts_enabled %}
+                {% if customer %}
+                  <button class="w-full flex items-center">
+                    <a href="{{ routes.account_url }}" class="underline text-gray-800">Account</a>
+                  </button>
+                  <button class="w-full flex items-center">
+                    {{ 'Log out' | customer_logout_link | replace: '<a', '<a class="underline text-gray-800"' }}
+                  </button>
+                {% else %}
+                  <button class="w-full flex items-center">
+                    {{ 'Log in' | customer_login_link | replace: '<a', '<a class="underline text-gray-800"' }}
+                  </button>
+                  <button class="w-full flex items-center">
+                    {{ 'Register' | customer_register_link | replace: '<a', '<a class="underline text-gray-800"' }}
+                  </button>
+                {% endif %}
+              {% endif %}
             </div>
           </div>
         </div>
