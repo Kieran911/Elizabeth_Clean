@@ -23,10 +23,19 @@
         "featured_collection": "all",
         "number_of_products_to_show": 12
       }
+    },
+    "modal_window_qrrWiJ": {
+      "type": "modal-window",
+      "name": "Modal Popup",
+      "settings": {
+        "redirect_collection": "summer-collection",
+        "enable_modal": true
+      }
     }
   },
   "order": [
     "modal-window",
-    "featured-collection"
+    "featured-collection",
+    "modal_window_qrrWiJ"
   ]
 }
