@@ -16,6 +16,12 @@
           "mobile_menu_title": "Maddox Apparels",
           "menu": "main-menu"
         }
+      },
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {
+          "cart_drawer_modal": false
+        }
       }
     },
     "content_for_index": []
