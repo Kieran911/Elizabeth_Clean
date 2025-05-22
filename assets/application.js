@@ -1,3 +1,35 @@
+/* Search bar */
+document.addEventListener('DOMContentLoaded', function () {
+  const searchBar = document.querySelector('.js-search-bar');
+  const openSearchButtonMobile = document.getElementById(
+    'open-search-button-mobile'
+  );
+  const openSearchButtonDesktop = document.getElementById(
+    'open-search-button-desktop'
+  );
+  const closeSearchButton = document.getElementById('close-search-button');
+
+  const openSearchBar = () => {
+    searchBar.classList.remove('translate-y-[-100%]');
+  };
+
+  const closeSearchBar = () => {
+    searchBar.classList.add('translate-y-[-100%]');
+  };
+
+  if (openSearchButtonMobile) {
+    openSearchButtonMobile.addEventListener('click', openSearchBar);
+  }
+
+  if (openSearchButtonDesktop) {
+    openSearchButtonDesktop.addEventListener('click', openSearchBar);
+  }
+
+  if (closeSearchButton) {
+    closeSearchButton.addEventListener('click', closeSearchBar);
+  }
+});
+
 /* Mobile nav js code */
 document.addEventListener('DOMContentLoaded', () => {
   const mobileNavButton = document.querySelector('.mobile-nav-button');

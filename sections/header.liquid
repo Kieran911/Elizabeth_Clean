@@ -2,7 +2,7 @@
 
 <div class="relative bg-white" x-data="{ mobileMenuOpen: false, searchBarOpen: false }" x-cloak>
   <div class="mx-auto sm:px-3">
-    <div class="flex justify-between items-center py-6 px-4 md:justify-start md:space-x-10 border-b">
+    <div class="flex justify-between items-center py-6 px-4 md:justify-start md:space-x-10">
       <button
         type="button"
         class="md:hidden mobile-nav-button cursor-pointer bg-white p-2 inline-flex items-center justify-center focus:outline-none"
@@ -40,11 +40,12 @@
           {% endif %}
         </a>
         <button
-          x-on:click="searchBarOpen = true"
+          id="open-search-button-mobile"
           type="button"
-          class="whitespace-nowrap text-gray-500 hover:text-gray-900 p-1"
+          class="md:hidden whitespace-nowrap text-gray-500 hover:text-gray-900"
         >
           {% render 'icon-search' %}
+          <span class="sr-only">Open Search (Mobile)</span>
         </button>
       </div>
 
@@ -92,11 +93,12 @@
       <!-- Cart and Account Links -->
       <div class="hidden md:flex items-center justify-end md:flex-1 space-x-5">
         <button
-          x-on:click="searchBarOpen = true"
+          id="open-search-button-desktop"
           type="button"
-          class="whitespace-nowrap text-gray-500 hover:text-gray-900"
+          class="hidden md:inline-flex whitespace-nowrap text-gray-500 hover:text-gray-900"
         >
           {% render 'icon-search' %}
+          <span class="sr-only">Open Search (Desktop)</span>
         </button>
         <a
           href="{{ routes.cart_url}}"
@@ -147,16 +149,7 @@
               </div>
               <div class="-mr-2">
                 <button type="button" class="bg-white rounded-md p-2 text-gray-500">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-5"
-                  >
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                  </svg>
+                  {% render 'icon-close' %}
                 </button>
               </div>
             </div>
@@ -167,36 +160,18 @@
                     <a href="#" class="underline text-gray-800 inline-flex items-center gap-1">
                       {{ link.title }}
                       <span class="inline-block plus-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5">
-                          <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
-                        </svg>
+                        {% render 'icon-arrow' %}
                       </span>
                     </a>
 
                     <div class="sublink-nav flex flex-col pt-7 pl-5 gap-y-5 items-start max-w-[70vw] w-full h-full bg-white absolute z-50 left-0 top-0 -translate-x-full transition-transform duration-300">
                       <div class="flex justify-between w-full pr-4 mb-4">
                         <span class="minus-icon">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            class="size-6"
-                          >
-                            <path fill-rule="evenodd" d="M17 10a.75.75 0 0 1-.75.75H5.612l4.158 3.96a.75.75 0 1 1-1.04 1.08l-5.5-5.25a.75.75 0 0 1 0-1.08l5.5-5.25a.75.75 0 1 1 1.04 1.08L5.612 9.25H16.25A.75.75 0 0 1 17 10Z" clip-rule="evenodd" />
-                          </svg>
+                          {% render 'icon-back' %}
                         </span>
 
                         <span class="close-icon">
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="size-5"
-                          >
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                          </svg>
+                          {% render 'icon-close' %}
                         </span>
                       </div>
                       <div class="flex flex-col gap-y-6">
@@ -238,11 +213,11 @@
   </div>
 
   {% comment %} SEARCH BAR {% endcomment %}
-  <div x-show="searchBarOpen" class="w-full absolute top-0 bg-white border">
-    <button type="button" x-on:click="searchBarOpen = false" class="absolute top-0 right-0 mr-5 mt-5 text-gray-500">
+  <div class="w-full absolute top-0 bg-white border z-[400] transition-transform duration-300 transform translate-y-[-100%] js-search-bar">
+    <button type="button" id="close-search-button" class="absolute top-0 right-0 mr-5 mt-3 text-gray-500">
       {% render 'icon-close' %}
     </button>
-    <div class="h-40 flex justify-center items-center">
+    <div class="h-[120px] flex justify-center items-center">
       <form class="flex-auto" method="get" action="{{ routes.search_url }}">
         <div class="relative text-gray-500 px-10 border">
           <input
