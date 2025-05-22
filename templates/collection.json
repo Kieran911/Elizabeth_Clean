@@ -22,10 +22,39 @@
       "settings": {
         "title": "Contact us"
       }
+    },
+    "image_slider_test_xHTfdF": {
+      "type": "image-slider-test",
+      "blocks": {
+        "slide_EijQPP": {
+          "type": "slide",
+          "settings": {
+            "title": "Slide Title",
+            "title_color": "#ffffff",
+            "description": "Add your description here",
+            "description_color": "#ffffff",
+            "show_first_button": true,
+            "first_button_text": "SEE MORE",
+            "first_button_link": "",
+            "show_second_button": true,
+            "second_button_text": "SUBSCRIBE",
+            "second_button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "slide_EijQPP"
+      ],
+      "name": "Image Content Slider",
+      "settings": {
+        "autoplay_speed": 7,
+        "transition_speed": 3
+      }
     }
   },
   "order": [
     "template",
-    "contact_form_rQYRXN"
+    "contact_form_rQYRXN",
+    "image_slider_test_xHTfdF"
   ]
 }
