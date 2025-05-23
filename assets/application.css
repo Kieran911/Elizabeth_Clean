@@ -696,6 +696,10 @@ video {
   z-index: 40;
 }
 
+.z-\[999\] {
+  z-index: 999;
+}
+
 .-m-3 {
   margin: -0.75rem;
 }
@@ -856,6 +860,14 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mb-10 {
+  margin-bottom: 2.5rem;
+}
+
+.mb-28 {
+  margin-bottom: 7rem;
 }
 
 .block {
@@ -1580,6 +1592,10 @@ video {
 
 .pt-7 {
   padding-top: 1.75rem;
+}
+
+.pb-10 {
+  padding-bottom: 2.5rem;
 }
 
 .text-left {

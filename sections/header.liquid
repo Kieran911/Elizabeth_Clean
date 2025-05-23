@@ -1,6 +1,10 @@
 {% assign main_menu_linklist = linklists[section.settings.menu].links %}
 
-<div class="relative bg-white" x-data="{ mobileMenuOpen: false, searchBarOpen: false }" x-cloak>
+<div
+  class="fixed top-0 w-full z-50 rounded-md bg-white"
+  x-data="{ mobileMenuOpen: false, searchBarOpen: false }"
+  x-cloak
+>
   <div class="mx-auto sm:px-3">
     <div class="flex justify-between items-center py-6 px-4 md:justify-start md:space-x-10">
       <button
@@ -213,7 +217,7 @@
   </div>
 
   {% comment %} SEARCH BAR {% endcomment %}
-  <div class="w-full absolute top-0 bg-white border z-[400] transition-transform duration-300 transform translate-y-[-100%] js-search-bar">
+  <div class="w-full absolute top-0 bg-white border z-50 transition-transform duration-300 transform translate-y-[-100%] js-search-bar">
     <button type="button" id="close-search-button" class="absolute top-0 right-0 mr-5 mt-3 text-gray-500">
       {% render 'icon-close' %}
     </button>
