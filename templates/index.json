@@ -12,8 +12,8 @@
     "modal-window": {
       "type": "modal-window",
       "settings": {
-        "redirect_collection": "",
-        "enable_modal": true
+        "redirect_collection": "frontpage",
+        "enable_modal": false
       }
     },
     "image_slider_test_xbQXxt": {
