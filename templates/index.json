@@ -132,7 +132,7 @@
       "name": "Testimonials",
       "settings": {
         "enable_auto_rotate": true,
-        "rotation_time": 3000
+        "rotation_time": 5000
       }
     }
   },
