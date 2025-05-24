@@ -31,7 +31,7 @@
       <div class="-mr-2 -my-2 ml-1 md:hidden">
         <a
           href="{{ routes.cart_url}}"
-          class="js-cart-btn whitespace-nowrap text-gray-500 hover:text-gray-900 relative inline-block mr-3"
+          class="js-cart-btn whitespace-nowrap text-gray-900 hover:text-gray-600 relative inline-block mr-3"
         >
           {% render 'icon-shopping-bag' %}
           {% if cart.item_count > 0 %}
@@ -46,7 +46,7 @@
         <button
           id="open-search-button-mobile"
           type="button"
-          class="md:hidden whitespace-nowrap text-gray-500 hover:text-gray-900"
+          class="md:hidden whitespace-nowrap text-gray-600 hover:text-gray-900"
         >
           {% render 'icon-search' %}
           <span class="sr-only">Open Search (Mobile)</span>
@@ -57,21 +57,17 @@
       <nav class="hidden md:flex space-x-10">
         {% for link in main_menu_linklist %}
           {% if link.links != blank %}
-            <div class="relative" x-data="{ open: false }">
+            <div class="relative group">
               <button
-                x-on:click="open = !open"
                 type="button"
-                class="inline-flex items-center text-base text-gray-500 hover:text-gray-900"
+                class="inline-flex items-center text-base text-gray-900 hover:text-gray-600 hover:underline"
               >
                 {{ link.title }}
                 {% render 'icon-dropdown' %}
               </button>
 
               <div
-                x-show="open"
-                x-cloak
-                @click.away="open = false"
-                class="absolute z-10 -ml-5 mt-5 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2"
+                class="absolute z-10 -ml-5 mt-5 transform px-2 w-screen max-w-md sm:px-0 lg:ml-0 lg:left-1/2 lg:-translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200"
               >
                 <div class="shadow-lg border ring-black ring-opacity-5 overflow-hidden rounded-lg">
                   <div class="relative grid gap-6 bg-white px-5 py-6 sm:gap-8 sm:p-8">
@@ -88,7 +84,12 @@
             </div>
           {% else %}
             <div class="relative">
-              <a href="{{ link.url }}" class="text-base text-gray-500 hover:text-gray-900">{{ link.title }}</a>
+              <a
+                href="{{ link.url }}"
+                class="text-base text-gray-900 hover:text-gray-600 {% if link.active %}underline{% endif %} hover:underline"
+              >
+                {{- link.title -}}
+              </a>
             </div>
           {% endif %}
         {% endfor %}
@@ -99,14 +100,14 @@
         <button
           id="open-search-button-desktop"
           type="button"
-          class="hidden md:inline-flex whitespace-nowrap text-gray-500 hover:text-gray-900"
+          class="hidden md:inline-flex whitespace-nowrap text-gray-900 hover:text-gray-500"
         >
           {% render 'icon-search' %}
           <span class="sr-only">Open Search (Desktop)</span>
         </button>
         <a
           href="{{ routes.cart_url}}"
-          class="js-cart-btn2 whitespace-nowrap text-gray-500 hover:text-gray-900 relative inline-block"
+          class="js-cart-btn2 whitespace-nowrap text-gray-900 hover:text-gray-600 relative inline-block"
         >
           {% render 'icon-shopping-bag' %}
           {% if cart.item_count > 0 %}
@@ -121,22 +122,24 @@
 
         {% if shop.customer_accounts_enabled %}
           {% if customer %}
-            <a href="{{ routes.account_url }}" class="text-base text-gray-500 hover:text-gray-900">Account</a>
+            <a href="{{ routes.account_url }}" class="text-base text-gray-600 hover:text-gray-900 hover:underline"
+              >Account</a
+            >
             {{
               'Log out'
               | customer_logout_link
-              | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
+              | replace: '<a', '<a class="text-base text-gray-600 hover:text-gray-900 hover:underline"'
             }}
           {% else %}
             {{
               'Log in'
               | customer_login_link
-              | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
+              | replace: '<a', '<a class="text-base text-gray-600 hover:text-gray-900 hover:underline"'
             }}
             {{
               'Register'
               | customer_register_link
-              | replace: '<a', '<a class="text-base text-gray-500 hover:text-gray-900"'
+              | replace: '<a', '<a class="text-base text-gray-600 hover:text-gray-900 hover:underline"'
             }}
           {% endif %}
         {% endif %}
@@ -149,10 +152,10 @@
             <!-- MOBILE MENU HEADER TITLE -->
             <div class="flex items-center justify-between pb-3">
               <div>
-                <h1 class="text-lg font-bold text-gray-500">{{ section.settings.mobile_menu_title }}</h1>
+                <h1 class="text-lg font-bold text-gray-600">{{ section.settings.mobile_menu_title }}</h1>
               </div>
               <div class="-mr-2">
-                <button type="button" class="bg-white rounded-md p-2 text-gray-500">
+                <button type="button" class="bg-white rounded-md p-2 text-gray-600">
                   {% render 'icon-close' %}
                 </button>
               </div>
@@ -218,12 +221,12 @@
 
   {% comment %} SEARCH BAR {% endcomment %}
   <div class="w-full absolute top-0 bg-white border z-50 transition-transform duration-300 transform translate-y-[-100%] js-search-bar">
-    <button type="button" id="close-search-button" class="absolute top-0 right-0 mr-5 mt-3 text-gray-500">
+    <button type="button" id="close-search-button" class="absolute top-0 right-0 mr-5 mt-3 text-gray-600">
       {% render 'icon-close' %}
     </button>
     <div class="h-[120px] flex justify-center items-center">
       <form class="flex-auto" method="get" action="{{ routes.search_url }}">
-        <div class="relative text-gray-500 px-10 border">
+        <div class="relative text-gray-600 px-10 border">
           <input
             type="search"
             name="q"

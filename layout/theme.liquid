@@ -12,6 +12,9 @@
     {{ 'application.css' | asset_url | stylesheet_tag }}
     <script src="{{ 'application.js' | asset_url }}" defer></script>
     <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sofia&family=Suranna&display=swap" rel="stylesheet">
 
     <style>
       [x-cloak] {
@@ -25,5 +28,6 @@
       {{ content_for_layout }}
       {% section 'cart-drawer' %}
     </main>
+    {% section 'footer' %}
   </body>
 </html>

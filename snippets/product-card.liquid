@@ -1,7 +1,7 @@
 {% assign selected_variant = product.first_available_variant %}
 
 <div class="w-full pt-6 pb-4 px-3">
-  <div class="border bg-white shadow-lg rounded-ld overflow-hidden">
+  <div class="bg-white shadow-sm rounded-lg overflow-hidden">
     <a href="{{ product.url }}">
       {% if product.featured_image %}
         <div class="w-full" style="max-height: 400px; overflow: hidden;">
@@ -21,7 +21,7 @@
       {% endif %}
     </a>
 
-    <div class="flex flex-col p-4 pb-1">
+    <div class="flex flex-col py-4 pb-1">
       {% if section.settings.display_vendor %}
         <span class="text-sm text-gray-400">{{ product.vendor }}</span>
       {% endif %}
@@ -35,7 +35,7 @@
           <button
             type="submit"
             name="add"
-            class="w-[70%] mx-auto mt-3 px-4 py-2 bg-gray-900 text-white hover:bg-gray-700 rounded-lg relative"
+            class="w-full mx-auto mt-3 py-2 bg-gray-900 text-white hover:bg-gray-700 relative"
             {% if selected_variant == false %}
               disabled
             {% endif %}

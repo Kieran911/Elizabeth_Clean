@@ -2,7 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
+body {
+  font-family: 'Suranna', serif;
+}
 
 .cart-drawer {
   position: fixed;

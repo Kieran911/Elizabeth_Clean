@@ -1,15 +1,15 @@
 <div class="related">
   <div class="width">
-    <h2>{{ section.settings.heading }}</h2>
+    <h2 class="text-6xl uppercase text-center mb-5">{{ section.settings.heading }}</h2>
 
-    <div class="related-products"></div>
+    <div class="related-products pt-2 flex flex-nowrap gap-x-7 overflow-x-scroll snap-x snap-mandatory pb-6 px-5"></div>
   </div>
 </div>
 
 {% if cart.item_count > 0 %}
   {% assign related_id = cart.items[0].product_id %}
 {% else %}
-  {% assign related_id = 6732544835668 %}
+  {% assign related_id = 14683683586413 %}
 {% endif %}
 
 <script>
@@ -65,21 +65,25 @@
     const formattedPrice = formatMoney(product.price, '{{ shop.money_format }}');
 
     const html = `
-      <a class="related-product" href="${product.url}">
-        <img src="${product.images[0]}" />
-        <h3>${product.title}</h3>
-        <span>${formattedPrice}</span>
-        <form method="post" action="/cart/add">
-          <input name="id" type="hidden" value="${product.variants[0].id}" />
-          <button type="submit">Add to cart</button>
-        </form>
-      </a>
+      <div class="w-[300px] flex-shrink-0 snap-center shadow-sm rounded-lg overflow-hidden">
+        <a class="related-product block" href="${product.url}">
+          <div class="aspect-square mb-4">
+            <img class="w-full h-full block object-cover" src="${product.images[0]}" />
+          </div>
+          <h3 class="text-lg font-medium mb-2">${product.title}</h3>
+          <span class="block mb-4">${formattedPrice}</span>
+          <form method="post" action="/cart/add">
+            <input name="id" type="hidden" value="${product.variants[0].id}" />
+            <button type="submit" class="w-full bg-black text-white py-2 px-4 hover:bg-gray-800 transition-colors">Add to cart</button>
+          </form>
+        </a>
+      </div>
     `;
 
     return html;
   }
 
-  fetch(window.Shopify.routes.root + 'recommendations/products.json?product_id={{ related_id }}&limit=3')
+  fetch(window.Shopify.routes.root + 'recommendations/products.json?product_id={{ related_id }}')
     .then((response) => response.json())
     .then(({ products }) => {
       products.forEach((product) => {
