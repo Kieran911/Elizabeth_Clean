@@ -1,17 +1,21 @@
 {%- style -%}
   .testimonials-section {
-    width: 80vw;
+    width: 100%;
+    max-width: 80vw;
     margin: 0 auto;
+    padding: 0 1rem;
+    overflow-x: hidden;
   }
   @media (max-width: 768px) {
     .testimonials-section {
-      width: 100vw;
+      max-width: 100%;
+      padding: 0 0.5rem;
     }
   }
 {%- endstyle -%}
 
 <div class="testimonials-section">
-  <div class="flex flex-col md:flex-row items-center justify-center gap-8 p-6">
+  <div class="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 p-4 md:p-6">
     <!-- Image Container -->
     <div class="w-full md:w-1/2">
       {% if section.blocks.size > 0 %}
@@ -38,7 +42,7 @@
     </div>
 
     <!-- Content Container -->
-    <div class="w-full md:w-1/2 flex flex-col items-center justify-center text-center">
+    <div class="w-full md:w-1/2 flex flex-col items-center justify-center text-center px-2 md:px-4">
       {% if section.blocks.size > 0 %}
         {% for block in section.blocks %}
           <div
@@ -46,26 +50,28 @@
             data-testimonial-index="{{ forloop.index0 }}"
           >
             {% if block.settings.testimonial_quote != blank %}
-              <blockquote class="text-2xl font-medium mb-4">"{{ block.settings.testimonial_quote }}"</blockquote>
+              <blockquote class="text-xl md:text-2xl font-medium mb-4">
+                "{{ block.settings.testimonial_quote }}"
+              </blockquote>
             {% endif %}
 
             {% if block.settings.testimonial_name != blank %}
-              <p class="text-lg font-semibold mb-2">{{ block.settings.testimonial_name }}</p>
+              <p class="text-base md:text-lg font-semibold mb-2">{{ block.settings.testimonial_name }}</p>
             {% endif %}
 
             {% if block.settings.testimonial_title != blank %}
-              <p class="text-gray-600">{{ block.settings.testimonial_title }}</p>
+              <p class="text-sm md:text-base text-gray-600">{{ block.settings.testimonial_title }}</p>
             {% endif %}
           </div>
         {% endfor %}
 
         <!-- Navigation Buttons -->
-        <div class="flex items-center justify-center gap-4 mt-8">
+        <div class="flex items-center justify-center gap-4 mt-6 md:mt-8">
           <button
             class="prev-testimonial p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
             aria-label="Previous testimonial"
           >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
           </button>
@@ -74,7 +80,7 @@
             class="next-testimonial p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
             aria-label="Next testimonial"
           >
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 md:w-6 md:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
             </svg>
           </button>
@@ -85,74 +91,79 @@
 </div>
 
 <script>
-  class TestimonialsSlider {
-    constructor() {
-      this.currentIndex = 0;
-      this.testimonials = document.querySelectorAll('.testimonial-content');
-      this.images = document.querySelectorAll('.testimonial-image');
-      this.totalTestimonials = this.testimonials.length;
-      this.autoRotateInterval = null;
-      this.rotationTime = {{ section.settings.rotation_time | default: 5000 }};
+  document.addEventListener('DOMContentLoaded', function() {
+    const testimonials = document.querySelectorAll('.testimonial-content');
+    const images = document.querySelectorAll('.testimonial-image');
+    const prevButton = document.querySelector('.prev-testimonial');
+    const nextButton = document.querySelector('.next-testimonial');
+    let currentIndex = 0;
+    let autoRotateInterval;
+    const rotationTime = {{ section.settings.rotation_time | default: 5000 }};
 
-      this.init();
+    function showTestimonial(index) {
+      // Hide all testimonials and images
+      testimonials.forEach(testimonial => testimonial.classList.add('hidden'));
+      images.forEach(image => image.classList.add('hidden'));
+
+      // Show current testimonial and image
+      testimonials[index].classList.remove('hidden');
+      images[index].classList.remove('hidden');
+      currentIndex = index;
     }
 
-    init() {
-      // Initialize navigation buttons
-      const prevButton = document.querySelector('.prev-testimonial');
-      const nextButton = document.querySelector('.next-testimonial');
+    function showNext() {
+      const nextIndex = (currentIndex + 1) % testimonials.length;
+      showTestimonial(nextIndex);
+    }
 
-      prevButton?.addEventListener('click', () => this.showPrevious());
-      nextButton?.addEventListener('click', () => this.showNext());
+    function showPrevious() {
+      const prevIndex = (currentIndex - 1 + testimonials.length) % testimonials.length;
+      showTestimonial(prevIndex);
+    }
 
-      // Start auto-rotation if enabled
+    function startAutoRotation() {
       if ({{ section.settings.enable_auto_rotate | json }}) {
-        this.startAutoRotation();
-      }
-
-      // Pause auto-rotation on hover
-      const testimonialsSection = document.querySelector('.testimonials-section');
-      testimonialsSection?.addEventListener('mouseenter', () => this.stopAutoRotation());
-      testimonialsSection?.addEventListener('mouseleave', () => this.startAutoRotation());
-    }
-
-    showTestimonial(index) {
-      // Hide all testimonials
-      this.testimonials.forEach(testimonial => testimonial.classList.add('hidden'));
-      this.images.forEach(image => image.classList.add('hidden'));
-
-      // Show current testimonial
-      this.testimonials[index].classList.remove('hidden');
-      this.images[index].classList.remove('hidden');
-      this.currentIndex = index;
-    }
-
-    showNext() {
-      const nextIndex = (this.currentIndex + 1) % this.totalTestimonials;
-      this.showTestimonial(nextIndex);
-    }
-
-    showPrevious() {
-      const prevIndex = (this.currentIndex - 1 + this.totalTestimonials) % this.totalTestimonials;
-      this.showTestimonial(prevIndex);
-    }
-
-    startAutoRotation() {
-      this.stopAutoRotation();
-      this.autoRotateInterval = setInterval(() => this.showNext(), this.rotationTime);
-    }
-
-    stopAutoRotation() {
-      if (this.autoRotateInterval) {
-        clearInterval(this.autoRotateInterval);
-        this.autoRotateInterval = null;
+        stopAutoRotation();
+        autoRotateInterval = setInterval(showNext, rotationTime);
       }
     }
-  }
 
-  // Initialize the slider when the DOM is loaded
-  document.addEventListener('DOMContentLoaded', () => {
-    new TestimonialsSlider();
+    function stopAutoRotation() {
+      if (autoRotateInterval) {
+        clearInterval(autoRotateInterval);
+        autoRotateInterval = null;
+      }
+    }
+
+    // Add click event listeners to buttons
+    if (prevButton) {
+      prevButton.addEventListener('click', () => {
+        showPrevious();
+        stopAutoRotation();
+        startAutoRotation();
+      });
+    }
+
+    if (nextButton) {
+      nextButton.addEventListener('click', () => {
+        showNext();
+        stopAutoRotation();
+        startAutoRotation();
+      });
+    }
+
+    // Pause auto-rotation on hover
+    const testimonialsSection = document.querySelector('.testimonials-section');
+    if (testimonialsSection) {
+      testimonialsSection.addEventListener('mouseenter', stopAutoRotation);
+      testimonialsSection.addEventListener('mouseleave', startAutoRotation);
+    }
+
+    // Initialize
+    if (testimonials.length > 0) {
+      showTestimonial(0);
+      startAutoRotation();
+    }
   });
 </script>
 
