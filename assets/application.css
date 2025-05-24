@@ -676,28 +676,12 @@ video {
   z-index: 10;
 }
 
-.z-50 {
-  z-index: 50;
-}
-
-.z-\[400\] {
-  z-index: 400;
-}
-
-.z-\[300\] {
-  z-index: 300;
-}
-
-.z-\[50\] {
-  z-index: 50;
-}
-
 .z-40 {
   z-index: 40;
 }
 
-.z-\[999\] {
-  z-index: 999;
+.z-50 {
+  z-index: 50;
 }
 
 .-m-3 {
@@ -862,14 +846,6 @@ video {
   margin-top: 2rem;
 }
 
-.mb-10 {
-  margin-bottom: 2.5rem;
-}
-
-.mb-28 {
-  margin-bottom: 7rem;
-}
-
 .block {
   display: block;
 }
@@ -933,10 +909,6 @@ video {
   height: 5rem;
 }
 
-.h-40 {
-  height: 10rem;
-}
-
 .h-5 {
   height: 1.25rem;
 }
@@ -961,6 +933,10 @@ video {
   height: 100vw;
 }
 
+.h-\[120px\] {
+  height: 120px;
+}
+
 .h-\[150px\] {
   height: 150px;
 }
@@ -975,27 +951,6 @@ video {
 
 .h-screen {
   height: 100vh;
-}
-
-.h-fit {
-  height: -moz-fit-content;
-  height: fit-content;
-}
-
-.h-\[100px\] {
-  height: 100px;
-}
-
-.h-\[300px\] {
-  height: 300px;
-}
-
-.h-\[200px\] {
-  height: 200px;
-}
-
-.h-\[120px\] {
-  height: 120px;
 }
 
 .min-h-80 {
@@ -1087,10 +1042,6 @@ video {
   max-width: 28rem;
 }
 
-.max-w-\[75vw\] {
-  max-width: 75vw;
-}
-
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -1115,11 +1066,6 @@ video {
 
 .-translate-y-1\/2 {
   --tw-translate-y: -50%;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.translate-x-full {
-  --tw-translate-x: 100%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1426,17 +1372,12 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity, 1));
 }
 
-.bg-black {
-  --tw-bg-opacity: 1;
-  background-color: rgb(0 0 0 / var(--tw-bg-opacity, 1));
-}
-
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
 
-.bg-opacity-30 {
-  --tw-bg-opacity: 0.3;
+.bg-opacity-90 {
+  --tw-bg-opacity: 0.9;
 }
 
 .object-cover {
@@ -1592,10 +1533,6 @@ video {
 
 .pt-7 {
   padding-top: 1.75rem;
-}
-
-.pb-10 {
-  padding-bottom: 2.5rem;
 }
 
 .text-left {
@@ -2183,10 +2120,6 @@ video {
     margin-bottom: 4rem;
   }
 
-  .md\:mb-0 {
-    margin-bottom: 0px;
-  }
-
   .md\:ml-1 {
     margin-left: 0.25rem;
   }
@@ -2235,10 +2168,6 @@ video {
     width: 100%;
   }
 
-  .md\:max-w-\[50vw\] {
-    max-width: 50vw;
-  }
-
   .md\:flex-1 {
     flex: 1 1 0%;
   }
@@ -2275,10 +2204,6 @@ video {
 
   .md\:p-12 {
     padding: 3rem;
-  }
-
-  .md\:pb-0 {
-    padding-bottom: 0px;
   }
 
   .md\:text-2xl {

@@ -86,11 +86,15 @@
         "featured_collection": "all",
         "number_of_products_to_show": 12
       }
+    },
+    "related-products": {
+      "type": "related-products",
+      "settings": {}
     }
   },
   "order": [
     "modal-window",
     "image_slider_test_xbQXxt",
-    "featured-collection"
+    "featured-collection","related-products"
   ]
 }
