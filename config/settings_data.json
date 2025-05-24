@@ -22,6 +22,24 @@
         "settings": {
           "cart_drawer_modal": true
         }
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {
+          "store_description": "Your trusted destination for quality products and exceptional service.",
+          "show_social_icons": true,
+          "social_facebook_link": "",
+          "social_instagram_link": "",
+          "social_twitter_link": "",
+          "social_linkedin_link": "",
+          "social_youtube_link": "",
+          "social_pinterest_link": "",
+          "social_tiktok_link": "",
+          "quick_links": "footer",
+          "customer_service": "footer",
+          "newsletter_text": "Subscribe to our newsletter for the latest updates and offers.",
+          "bottom_links": ""
+        }
       }
     },
     "content_for_index": []
