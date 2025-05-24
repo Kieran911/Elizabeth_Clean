@@ -92,21 +92,12 @@
       "settings": {
         "heading": "You may also like"
       }
-    },
-    "testimonials_hawMgc": {
-      "type": "testimonials",
-      "name": "Testimonials",
-      "settings": {
-        "enable_auto_rotate": true,
-        "rotation_time": 5000
-      }
     }
   },
   "order": [
     "modal-window",
     "image_slider_test_xbQXxt",
     "featured-collection",
-    "related-products",
-    "testimonials_hawMgc"
+    "related-products"
   ]
 }
