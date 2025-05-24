@@ -93,8 +93,42 @@
         "heading": "You may also like"
       }
     },
-    "testimonials_hawMgc": {
+    "testimonials_NxnYQr": {
       "type": "testimonials",
+      "blocks": {
+        "testimonial_MmpGHX": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_image": "shopify://shop_images/smiling-woman-poses_925x_bafbaf7d-72f3-45f2-befc-5c133d7e179b.jpg",
+            "testimonial_quote": "This product exceeded all my expectations! The quality is outstanding and the service was impeccable.",
+            "testimonial_name": "Sarah Johnson",
+            "testimonial_title": "Loyal Customer"
+          }
+        },
+        "testimonial_VG4FKY": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_image": "shopify://shop_images/pexels-gpop-yef-451536741-32147059_f9e187ed-c870-4f31-8ed4-5082dc04880f.jpg",
+            "testimonial_quote": "I've been a customer for years and have never been disappointed. The attention to detail is remarkable.",
+            "testimonial_name": "Michael Brown",
+            "testimonial_title": "Regular Shopper"
+          }
+        },
+        "testimonial_bWt7jL": {
+          "type": "testimonial",
+          "settings": {
+            "testimonial_image": "shopify://shop_images/young-female-models-denim_925x_4ac96e71-5855-4a5e-8720-b770f81a8d66.jpg",
+            "testimonial_quote": "The best shopping experience I've ever had. Fast shipping and excellent customer service!",
+            "testimonial_name": "Emily Davis",
+            "testimonial_title": "First-time Buyer"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_MmpGHX",
+        "testimonial_VG4FKY",
+        "testimonial_bWt7jL"
+      ],
       "name": "Testimonials",
       "settings": {
         "enable_auto_rotate": true,
@@ -107,6 +141,6 @@
     "image_slider_test_xbQXxt",
     "featured-collection",
     "related-products",
-    "testimonials_hawMgc"
+    "testimonials_NxnYQr"
   ]
 }
