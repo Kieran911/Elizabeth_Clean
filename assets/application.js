@@ -49,13 +49,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isNavOpen) {
       mobileNavDiv.classList.remove('opacity-0', 'pointer-events-none');
-
       mobileNav.classList.remove('-translate-x-full');
+      // Lock screen
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${window.scrollY}px`;
+      document.body.style.width = '100%';
     } else {
       mobileNav.classList.add('-translate-x-full');
-
       isSublinkOpen = false;
       sublinkNav.classList.add('-translate-x-full');
+      // Unlock screen
+      const scrollY = document.body.style.top;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      window.scrollTo(0, parseInt(scrollY || '0') * -1);
 
       setTimeout(() => {
         mobileNavDiv.classList.add('opacity-0', 'pointer-events-none');

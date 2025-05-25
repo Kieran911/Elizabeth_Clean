@@ -1,0 +1,124 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="flex flex-col md:flex-row gap-8 items-center">
+    {% comment %} Image Container {% endcomment %}
+    <div class="w-full md:w-1/2">
+      {% if section.settings.image != blank %}
+        <div class="aspect-[4/3] overflow-hidden rounded-lg">
+          {{
+            section.settings.image
+            | image_url: width: 1200
+            | image_tag: loading: 'lazy', class: 'w-full h-full object-cover', alt: section.settings.image.alt
+          }}
+        </div>
+      {% else %}
+        <div class="aspect-[4/3] bg-gray-100 rounded-lg flex items-center justify-center">
+          {{ 'image' | placeholder_svg_tag: 'w-24 h-24 text-gray-400' }}
+        </div>
+      {% endif %}
+    </div>
+
+    {% comment %} Content Container {% endcomment %}
+    <div class="w-full md:w-1/2 flex flex-col gap-6">
+      {% comment %} Text Content {% endcomment %}
+      <div class="space-y-4">
+        {% if section.settings.heading != blank %}
+          <h2 class="text-3xl md:text-4xl font-bold text-gray-900">
+            {{ section.settings.heading }}
+          </h2>
+        {% endif %}
+
+        {% if section.settings.subheading != blank %}
+          <h3 class="text-xl md:text-2xl text-gray-600">
+            {{ section.settings.subheading }}
+          </h3>
+        {% endif %}
+
+        {% if section.settings.text != blank %}
+          <div class="prose prose-lg text-gray-600">
+            {{ section.settings.text }}
+          </div>
+        {% endif %}
+      </div>
+
+      {% comment %} Button {% endcomment %}
+      {% if section.settings.button_label != blank and section.settings.button_link != blank %}
+        <div class="flex {% if section.settings.button_alignment == 'left' %}justify-start{% elsif section.settings.button_alignment == 'center' %}justify-center{% else %}justify-end{% endif %}">
+          <a
+            href="{{ section.settings.button_link }}"
+            class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-900 hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+          >
+            {{ section.settings.button_label }}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "About Us",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "About Us"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Learn more about our story"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text",
+      "default": "<p>Share your story with your customers. Let them know who you are and what makes your business special.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button Label",
+      "default": "Learn More"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "select",
+      "id": "button_alignment",
+      "label": "Button Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Us",
+      "category": "Text"
+    }
+  ]
+}
+{% endschema %}
