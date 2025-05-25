@@ -92,13 +92,22 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function openCartDrawer() {
+  const scrollY = window.scrollY;
   document.querySelector('.cart-drawer').classList.add('cart-drawer--active');
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${scrollY}px`;
+  document.body.style.width = '100%';
 }
 
 function closeCartDrawer() {
+  const scrollY = document.body.style.top;
   document
     .querySelector('.cart-drawer')
     .classList.remove('cart-drawer--active');
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.width = '';
+  window.scrollTo(0, parseInt(scrollY || '0') * -1);
 }
 
 function updateCartItemCounts(count) {
@@ -141,7 +150,7 @@ function addCartDrawerListeners() {
         );
         const newQuantity = isUp ? currentQuantity + 1 : currentQuantity - 1;
 
-        // Ajax update\
+        // Ajax update
         const res = await fetch('/cart/update.js', {
           method: 'post',
           headers: {
