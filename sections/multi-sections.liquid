@@ -1,54 +1,110 @@
-<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-  <div class="space-y-4">
-    {% for block in section.blocks %}
-      <div class="border rounded-lg overflow-hidden" {{ block.shopify_attributes }}>
-        {% comment %} Header Section {% endcomment %}
-        <button
-          class="w-full px-6 py-4 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors"
-          aria-expanded="false"
-          aria-controls="content-{{ block.id }}"
-          data-accordion-trigger
-        >
-          <h3 class="text-lg font-medium text-gray-900">{{ block.settings.title }}</h3>
-          <div class="flex items-center">
-            <span class="plus-icon">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
-            </span>
-            <span class="minus-icon hidden">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6 text-gray-500"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-              </svg>
-            </span>
-          </div>
-        </button>
+{% assign container_count = section.blocks | where: 'type', 'container' | size %}
+{% assign multi_row_count = section.blocks | where: 'type', 'multi_row' | size %}
+{% assign image_count = section.blocks | where: 'type', 'image' | size %}
+{% assign text_count = section.blocks | where: 'type', 'text' | size %}
+{% assign rich_text_count = section.blocks | where: 'type', 'rich_text' | size %}
 
-        {% comment %} Content Section {% endcomment %}
-        <div
-          id="content-{{ block.id }}"
-          class="content-section hidden overflow-hidden"
-          data-accordion-content
-        >
-          <div class="px-6 py-4 bg-white">
-            <div class="prose prose-lg text-gray-600">
-              {{ block.settings.content }}
+<div class="w-full">
+  <div class="flex flex-col md:flex-row flex-wrap">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'multi_row' %}
+          <div
+            class="w-full {% if container_count == 2 %}md:w-1/2{% elsif container_count == 3 and forloop.first %}md:w-1/2{% elsif container_count == 3 %}md:w-1/4{% else %}md:w-1/4{% endif %} p-4"
+            {{ block.shopify_attributes }}
+          >
+            <div class="max-w-4xl mx-auto">
+              <div class="space-y-4">
+                {% for row in block.settings.rows %}
+                  <div class="border rounded-lg overflow-hidden">
+                    <button
+                      class="w-full px-4 md:px-6 py-3 md:py-4 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors"
+                      aria-expanded="false"
+                      aria-controls="content-{{ block.id }}-{{ forloop.index }}"
+                      data-accordion-trigger
+                    >
+                      <h3 class="text-base md:text-lg font-medium text-gray-900">{{ row.title }}</h3>
+                      <div class="flex items-center">
+                        <span class="plus-icon">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 md:h-6 md:w-6 text-gray-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                          </svg>
+                        </span>
+                        <span class="minus-icon hidden">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="h-5 w-5 md:h-6 md:w-6 text-gray-500"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                          </svg>
+                        </span>
+                      </div>
+                    </button>
+
+                    <div
+                      id="content-{{ block.id }}-{{ forloop.index }}"
+                      class="content-section hidden overflow-hidden"
+                      data-accordion-content
+                    >
+                      <div class="px-4 md:px-6 py-3 md:py-4 bg-white">
+                        <div class="prose prose-sm md:prose-lg text-gray-600">
+                          {{ row.content }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+
+        {% when 'image' %}
+          <div
+            class="{% if container_count == 2 %}w-1/2{% elsif container_count == 3 and forloop.first %}w-1/2{% elsif container_count == 3 %}w-1/4{% else %}w-1/4{% endif %}"
+            {{ block.shopify_attributes }}
+          >
+            {% if block.settings.image != blank %}
+              {{
+                block.settings.image
+                | image_url: width: 2000
+                | image_tag: loading: 'lazy', class: 'w-full h-full object-cover', alt: block.settings.image.alt
+              }}
+            {% else %}
+              <div class="w-full aspect-[4/3] bg-gray-100 flex items-center justify-center">
+                {{ 'image' | placeholder_svg_tag: 'w-16 h-16 md:w-24 md:h-24 text-gray-400' }}
+              </div>
+            {% endif %}
+          </div>
+
+        {% when 'text' %}
+          <div
+            class="{% if container_count == 2 %}w-1/2{% elsif container_count == 3 and forloop.first %}w-1/2{% elsif container_count == 3 %}w-1/4{% else %}w-1/4{% endif %} p-4"
+            {{ block.shopify_attributes }}
+          >
+            <div class="prose prose-sm md:prose-lg">
+              {{ block.settings.text }}
+            </div>
+          </div>
+
+        {% when 'rich_text' %}
+          <div
+            class="{% if container_count == 2 %}w-1/2{% elsif container_count == 3 and forloop.first %}w-1/2{% elsif container_count == 3 %}w-1/4{% else %}w-1/4{% endif %} p-4"
+            {{ block.shopify_attributes }}
+          >
+            <div class="prose prose-sm md:prose-lg">
+              {{ block.settings.rich_text }}
+            </div>
+          </div>
+      {% endcase %}
     {% endfor %}
   </div>
 </div>
@@ -71,10 +127,26 @@
 
   button[aria-expanded='true'] .plus-icon {
     display: none;
+    transform: rotate(45deg);
   }
 
   button[aria-expanded='true'] .minus-icon {
     display: block;
+    transform: rotate(0deg);
+  }
+
+  button[aria-expanded='false'] .plus-icon {
+    transform: rotate(0deg);
+  }
+
+  button[aria-expanded='false'] .minus-icon {
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 768px) {
+    .content-section.active {
+      max-height: 2000px;
+    }
   }
 </style>
 
@@ -119,41 +191,89 @@
 
 {% schema %}
 {
-  "name": "Multi Row Section",
+  "name": "Multi Container Section",
   "settings": [],
   "blocks": [
     {
-      "type": "row",
-      "name": "Row",
-      "limit": 8,
+      "type": "multi_row",
+      "name": "Multi Row Section",
+      "limit": 1,
       "settings": [
+        {
+          "type": "header",
+          "content": "Accordion Rows"
+        },
         {
           "type": "text",
           "id": "title",
-          "label": "Title",
-          "default": "Section Title"
+          "label": "Section Title",
+          "default": "Accordion Section"
         },
         {
+          "type": "range",
+          "id": "rows_count",
+          "min": 1,
+          "max": 8,
+          "step": 1,
+          "label": "Number of Rows",
+          "default": 3
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Add your text here"
+        }
+      ]
+    },
+    {
+      "type": "rich_text",
+      "name": "Rich Text",
+      "limit": 1,
+      "settings": [
+        {
           "type": "richtext",
-          "id": "content",
-          "label": "Content",
-          "default": "<p>Add your content here. This can be text, HTML, or any other content you'd like to display.</p>"
+          "id": "rich_text",
+          "label": "Rich Text",
+          "default": "<p>Add your rich text content here</p>"
         }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Multi Row Section",
+      "name": "Multi Container Section",
       "blocks": [
         {
-          "type": "row"
+          "type": "multi_row"
         },
         {
-          "type": "row"
+          "type": "image"
         },
         {
-          "type": "row"
+          "type": "text"
+        },
+        {
+          "type": "rich_text"
         }
       ]
     }
