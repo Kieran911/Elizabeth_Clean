@@ -173,10 +173,10 @@
       "name": "Multi Row Section",
       "settings": {
         "image": "shopify://shop_images/pexels-paggiarofrancesco-581087_e725292b-884f-4098-8652-49ec7728a7bb.jpg",
-        "heading": "<h2>An end-to-end experience of pure fulfillment</h2>",
+        "heading": "<h1>An end-to-end experience of pure fulfillment</h1>",
         "heading_bg": "#f8eded",
-        "heading_color": "#be5e71",
-        "accordion_bg": "#be5e71",
+        "heading_color": "#222",
+        "accordion_bg": "#222",
         "accordion_text": "#fff"
       }
     }
