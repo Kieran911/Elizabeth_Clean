@@ -1021,6 +1021,10 @@ video {
   min-height: 60vh;
 }
 
+.min-h-\[80vh\] {
+  min-height: 80vh;
+}
+
 .w-1\/2 {
   width: 50%;
 }
@@ -1450,6 +1454,11 @@ video {
 .border-\[\#e6a7b5\] {
   --tw-border-opacity: 1;
   border-color: rgb(230 167 181 / var(--tw-border-opacity, 1));
+}
+
+.border-gray-300 {
+  --tw-border-opacity: 1;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity, 1));
 }
 
 .bg-black {
@@ -2506,6 +2515,10 @@ body {
 
   .md\:h-auto {
     height: auto;
+  }
+
+  .md\:min-h-\[100vh\] {
+    min-height: 100vh;
   }
 
   .md\:w-1\/2 {

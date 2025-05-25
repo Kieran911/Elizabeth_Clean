@@ -4,7 +4,7 @@
 {% assign text_count = section.blocks | where: 'type', 'text' | size %}
 {% assign rich_text_count = section.blocks | where: 'type', 'rich_text' | size %}
 
-<div class="w-full flex flex-col md:flex-row min-h-[60vh]">
+<div class="w-full flex flex-col md:flex-row min-h-[80vh] md:min-h-[100vh]">
   <!-- Left: Full-bleed Image -->
   <div class="w-full md:w-1/2 h-64 md:h-auto">
     {% if section.settings.image != blank %}
@@ -27,13 +27,13 @@
   <div class="w-full md:w-1/2 flex flex-col">
     <!-- Heading -->
     <div
-      class="p-8 md:p-12 flex items-end min-h-[180px]"
+      class="flex items-center justify-center p-8 md:p-12 min-h-[180px]"
       style="background-color: {{ section.settings.heading_bg | default: '#f8eded' }};"
     >
-      <div class="w-full">
+      <div class="w-full flex items-center justify-center">
         <div
-          class="prose prose-lg md:prose-2xl font-bold"
-          style="color: {{ section.settings.heading_color | default: '#be5e71' }};"
+          class="prose prose-lg md:prose-2xl font-bold text-center"
+          style="color: {{ section.settings.heading_color | default: '#be5e71' }}; font-size: {{ section.settings.heading_size | default: 40 }}px; max-width: 100%;"
         >
           {{ section.settings.heading }}
         </div>
@@ -44,35 +44,43 @@
       {% for block in section.blocks %}
         <div class="border-b border-[#e6a7b5] last:border-b-0" {{ block.shopify_attributes }}>
           <button
-            class="w-full px-6 py-5 flex items-center justify-between text-left focus:outline-none transition-colors"
+            class="w-full px-6 py-5 flex flex-col items-start text-left focus:outline-none transition-colors group"
             style="color: {{ section.settings.accordion_text | default: '#fff' }};"
             aria-expanded="false"
             aria-controls="content-{{ block.id }}"
             data-accordion-trigger
           >
-            <span class="text-lg md:text-xl font-medium">{{ block.settings.title }}</span>
-            <span class="plus-icon transition-transform duration-300">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+            <span class="w-full flex items-center justify-between">
+              <span
+                class="font-semibold"
+                style="font-size: {{ section.settings.accordion_heading_size | default: 24 }}px;"
               >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-              </svg>
+                {{ block.settings.title }}
+              </span>
+              <span class="plus-icon transition-transform duration-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+              </span>
+              <span class="minus-icon hidden transition-transform duration-300">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+                </svg>
+              </span>
             </span>
-            <span class="minus-icon hidden transition-transform duration-300">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-              </svg>
-            </span>
+            <span class="block w-full border-b border-gray-300 mt-2"></span>
           </button>
           <div id="content-{{ block.id }}" class="content-section hidden overflow-hidden" data-accordion-content>
             <div
@@ -121,6 +129,9 @@
     }
     .min-h-\[180px\] {
       min-height: 100px !important;
+    }
+    .min-h-\[100vh\] {
+      min-height: 80vh !important;
     }
   }
 </style>
@@ -175,6 +186,15 @@
       "default": "<h2>An end-to-end experience of pure pleasure</h2>"
     },
     {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading Font Size (px)",
+      "min": 24,
+      "max": 100,
+      "step": 1,
+      "default": 40
+    },
+    {
       "type": "select",
       "id": "heading_bg",
       "label": "Heading Background Color",
@@ -227,6 +247,15 @@
         { "value": "#e5e7eb", "label": "Gray" }
       ],
       "default": "#fff"
+    },
+    {
+      "type": "range",
+      "id": "accordion_heading_size",
+      "label": "Accordion Heading Size (px)",
+      "min": 18,
+      "max": 100,
+      "step": 1,
+      "default": 24
     }
   ],
   "blocks": [
