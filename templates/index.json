@@ -93,6 +93,19 @@
         "heading": "You may also like"
       }
     },
+    "about_us_Ajc3qY": {
+      "type": "about-us",
+      "name": "About Us",
+      "settings": {
+        "image": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_f0819cad-9efd-40df-b309-ec9ce6499e48.jpg",
+        "heading": "About Us",
+        "subheading": "Learn more about our story",
+        "text": "<p>Share your story with your customers. Let them know who you are and what makes your business special.</p>",
+        "button_label": "Learn More",
+        "button_link": "shopify://pages/about-us",
+        "button_alignment": "center"
+      }
+    },
     "testimonials_NxnYQr": {
       "type": "testimonials",
       "blocks": {
@@ -134,19 +147,6 @@
         "enable_auto_rotate": true,
         "rotation_time": 5000
       }
-    },
-    "about_us_Ajc3qY": {
-      "type": "about-us",
-      "name": "About Us",
-      "settings": {
-        "image": "shopify://shop_images/man-adjusts-blue-tuxedo-bowtie_925x_f0819cad-9efd-40df-b309-ec9ce6499e48.jpg",
-        "heading": "About Us",
-        "subheading": "Learn more about our story",
-        "text": "<p>Share your story with your customers. Let them know who you are and what makes your business special.</p>",
-        "button_label": "Learn More",
-        "button_link": "shopify://pages/about-us",
-        "button_alignment": "center"
-      }
     }
   },
   "order": [
@@ -154,7 +154,7 @@
     "image_slider_test_xbQXxt",
     "featured-collection",
     "related-products",
-    "testimonials_NxnYQr",
-    "about_us_Ajc3qY"
+    "about_us_Ajc3qY",
+    "testimonials_NxnYQr"
   ]
 }
