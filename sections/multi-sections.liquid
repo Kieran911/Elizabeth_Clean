@@ -42,7 +42,7 @@
     <!-- Accordion -->
     <div class="flex-1 p-0" style="background-color: {{ section.settings.accordion_bg | default: '#be5e71' }};">
       {% for block in section.blocks %}
-        <div class="border-b border-[#e6a7b5] last:border-b-0" {{ block.shopify_attributes }}>
+        <div class=" last:border-b-0" {{ block.shopify_attributes }}>
           <button
             class="w-full px-6 py-5 flex flex-col items-start text-left focus:outline-none transition-colors group"
             style="color: {{ section.settings.accordion_text | default: '#fff' }};"
@@ -50,7 +50,7 @@
             aria-controls="content-{{ block.id }}"
             data-accordion-trigger
           >
-            <span class="w-full flex items-center justify-between">
+            <span class="pl-4 w-full flex items-center justify-between">
               <span
                 class="font-semibold"
                 style="font-size: {{ section.settings.accordion_heading_size | default: 24 }}px;"
@@ -80,7 +80,6 @@
                 </svg>
               </span>
             </span>
-            <span class="block w-full border-b border-gray-300 mt-2"></span>
           </button>
           <div id="content-{{ block.id }}" class="content-section hidden overflow-hidden" data-accordion-content>
             <div
@@ -90,6 +89,7 @@
               {{ block.settings.content }}
             </div>
           </div>
+          <span class="block w-[90%] mx-auto border-b border-gray-300 mt-2"></span>
         </div>
       {% endfor %}
     </div>
