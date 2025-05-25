@@ -151,35 +151,34 @@
     "multi_sections_KrEpbJ": {
       "type": "multi-sections",
       "blocks": {
-        "row_VCi8FP": {
-          "type": "row",
+        "accordion_row_JgVzxe": {
+          "type": "accordion_row",
           "settings": {
-            "title": "Section Title",
-            "content": "<p>Add your content here. This can be text, HTML, or any other content you'd like to display.</p>"
+            "title": "Trust our team of experienced advisors",
+            "content": "<p>We can change your perception of reality by our fashion tips.</p>"
           }
         },
-        "row_yRDbbd": {
-          "type": "row",
+        "accordion_row_Kkn3Jn": {
+          "type": "accordion_row",
           "settings": {
-            "title": "Section Title",
-            "content": "<p>Add your content here. This can be text, HTML, or any other content you'd like to display.</p>"
-          }
-        },
-        "row_Miwi4j": {
-          "type": "row",
-          "settings": {
-            "title": "Section Title",
-            "content": "<p>Add your content here. This can be text, HTML, or any other content you'd like to display.</p>"
+            "title": "Pure sense of control",
+            "content": "<p>Feel more in control of your moods. </p>"
           }
         }
       },
       "block_order": [
-        "row_VCi8FP",
-        "row_yRDbbd",
-        "row_Miwi4j"
+        "accordion_row_JgVzxe",
+        "accordion_row_Kkn3Jn"
       ],
       "name": "Multi Row Section",
-      "settings": {}
+      "settings": {
+        "image": "shopify://shop_images/pexels-paggiarofrancesco-581087_e725292b-884f-4098-8652-49ec7728a7bb.jpg",
+        "heading": "<h2>An end-to-end experience of pure fulfillment</h2>",
+        "heading_bg": "#f8eded",
+        "heading_color": "#be5e71",
+        "accordion_bg": "#be5e71",
+        "accordion_text": "#fff"
+      }
     }
   },
   "order": [
