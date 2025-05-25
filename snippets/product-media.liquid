@@ -1,12 +1,37 @@
 {% case media.media_type %}
   {% when 'image' %}
-    <img
-      src="{{ media | img_url: '1024x1024' }}"
-      width=""
-      height=""
-      class="w-full h-full object-cover"
-      alt="{{ media.preview_image.alt }}"
-    >
+    <product-image data-media-id="{{ media.id }}">
+      <div>
+        <button
+          id="productImageOpenButton_{{ media.id }}"
+          x-on:click="productModalOpen = true; currentMediaType = 'image'"
+          class="w-full h-full bg-gray-100 border relative"
+        >
+          <span
+            class="border bg-gray-100 absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2"
+          >
+            {%- render 'icon-modal-viewer' -%}
+          </span>
+          <img
+            src="{{ media | img_url: '1024x1024' }}"
+            width="1024"
+            height="1024"
+            alt="{{ media.preview_image.alt }}"
+            class="w-full h-full object-cover"
+          >
+        </button>
+      </div>
+
+      <template>
+        <img
+          src="{{ media | img_url: '2048x2048' }}"
+          width="2048"
+          height="2048"
+          class="w-full h-full object-contain"
+          alt="{{ media.preview_image.alt }}"
+        >
+      </template>
+    </product-image>
   {% when 'external_video' %}
     {{ media | external_video_tag: class: 'w-full h-80 object-cover' }}
 
@@ -18,7 +43,7 @@
       <div>
         <button
           id="productModelOpenButton_{{ media.id }}"
-          x-on:click="productModalOpen = true"
+          x-on:click="productModalOpen = true; currentMediaType = 'model'"
           class="w-full h-full bg-gray-100 border relative"
         >
           <span
