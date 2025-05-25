@@ -147,6 +147,39 @@
         "enable_auto_rotate": true,
         "rotation_time": 5000
       }
+    },
+    "multi_sections_KrEpbJ": {
+      "type": "multi-sections",
+      "blocks": {
+        "row_VCi8FP": {
+          "type": "row",
+          "settings": {
+            "title": "Section Title",
+            "content": "<p>Add your content here. This can be text, HTML, or any other content you'd like to display.</p>"
+          }
+        },
+        "row_yRDbbd": {
+          "type": "row",
+          "settings": {
+            "title": "Section Title",
+            "content": "<p>Add your content here. This can be text, HTML, or any other content you'd like to display.</p>"
+          }
+        },
+        "row_Miwi4j": {
+          "type": "row",
+          "settings": {
+            "title": "Section Title",
+            "content": "<p>Add your content here. This can be text, HTML, or any other content you'd like to display.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "row_VCi8FP",
+        "row_yRDbbd",
+        "row_Miwi4j"
+      ],
+      "name": "Multi Row Section",
+      "settings": {}
     }
   },
   "order": [
@@ -155,6 +188,7 @@
     "featured-collection",
     "related-products",
     "about_us_Ajc3qY",
-    "testimonials_NxnYQr"
+    "testimonials_NxnYQr",
+    "multi_sections_KrEpbJ"
   ]
 }
