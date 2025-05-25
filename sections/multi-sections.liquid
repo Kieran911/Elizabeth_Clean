@@ -1,0 +1,162 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+  <div class="space-y-4">
+    {% for block in section.blocks %}
+      <div class="border rounded-lg overflow-hidden" {{ block.shopify_attributes }}>
+        {% comment %} Header Section {% endcomment %}
+        <button
+          class="w-full px-6 py-4 flex items-center justify-between bg-white hover:bg-gray-50 transition-colors"
+          aria-expanded="false"
+          aria-controls="content-{{ block.id }}"
+          data-accordion-trigger
+        >
+          <h3 class="text-lg font-medium text-gray-900">{{ block.settings.title }}</h3>
+          <div class="flex items-center">
+            <span class="plus-icon">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+            </span>
+            <span class="minus-icon hidden">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6 text-gray-500"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+              </svg>
+            </span>
+          </div>
+        </button>
+
+        {% comment %} Content Section {% endcomment %}
+        <div
+          id="content-{{ block.id }}"
+          class="content-section hidden overflow-hidden"
+          data-accordion-content
+        >
+          <div class="px-6 py-4 bg-white">
+            <div class="prose prose-lg text-gray-600">
+              {{ block.settings.content }}
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+<style>
+  .content-section {
+    max-height: 0;
+    transition: max-height 0.3s ease-out;
+  }
+
+  .content-section.active {
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in;
+  }
+
+  .plus-icon,
+  .minus-icon {
+    transition: transform 0.3s ease;
+  }
+
+  button[aria-expanded='true'] .plus-icon {
+    display: none;
+  }
+
+  button[aria-expanded='true'] .minus-icon {
+    display: block;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const accordionTriggers = document.querySelectorAll('[data-accordion-trigger]');
+    const accordionContents = document.querySelectorAll('[data-accordion-content]');
+
+    accordionTriggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+        const content = document.getElementById(trigger.getAttribute('aria-controls'));
+
+        // Close all other accordions
+        accordionTriggers.forEach((otherTrigger) => {
+          if (otherTrigger !== trigger) {
+            otherTrigger.setAttribute('aria-expanded', 'false');
+            const otherContent = document.getElementById(otherTrigger.getAttribute('aria-controls'));
+            otherContent.classList.remove('active');
+            otherContent.classList.add('hidden');
+          }
+        });
+
+        // Toggle current accordion
+        if (!isExpanded) {
+          trigger.setAttribute('aria-expanded', 'true');
+          content.classList.remove('hidden');
+          // Force a reflow to ensure the transition works
+          content.offsetHeight;
+          content.classList.add('active');
+        } else {
+          trigger.setAttribute('aria-expanded', 'false');
+          content.classList.remove('active');
+          setTimeout(() => {
+            content.classList.add('hidden');
+          }, 300); // Match the transition duration
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Multi Row Section",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Row",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Section Title"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Content",
+          "default": "<p>Add your content here. This can be text, HTML, or any other content you'd like to display.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Multi Row Section",
+      "blocks": [
+        {
+          "type": "row"
+        },
+        {
+          "type": "row"
+        },
+        {
+          "type": "row"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
