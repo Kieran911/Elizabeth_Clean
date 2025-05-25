@@ -13,7 +13,7 @@
       "type": "modal-window",
       "settings": {
         "redirect_collection": "frontpage",
-        "enable_modal": false
+        "enable_modal": true
       }
     },
     "image_slider_test_xbQXxt": {
@@ -23,15 +23,15 @@
           "type": "slide",
           "settings": {
             "slide_image": "shopify://shop_images/autumn-photographer-taking-picture_925x_321c3a4d-42ee-42c8-8e90-49d272c37f5d.jpg",
-            "title": "Slide Title",
+            "title": "Exotic Apparels",
             "title_color": "#ffffff",
-            "description": "Add your description here",
+            "description": "The best shop for celebrities with endorsements from big timers like Michael Jordan, Beyonce, Rihanna, Bella Hadid.",
             "description_color": "#ffffff",
             "show_first_button": true,
-            "first_button_text": "SEE MORE",
+            "first_button_text": "READ MORE",
             "first_button_link": "",
             "show_second_button": true,
-            "second_button_text": "SUBSCRIBE",
+            "second_button_text": "Shop Now",
             "second_button_link": ""
           }
         },
@@ -39,16 +39,16 @@
           "type": "slide",
           "settings": {
             "slide_image": "shopify://shop_images/pexels-paggiarofrancesco-581087_e725292b-884f-4098-8652-49ec7728a7bb.jpg",
-            "title": "Slide Title",
+            "title": "High Fashion Magazines",
             "title_color": "#ffffff",
-            "description": "Add your description here",
+            "description": "Get in touch with your fashion nature, read and unlock your best look yet.",
             "description_color": "#ffffff",
             "show_first_button": true,
-            "first_button_text": "SEE MORE",
-            "first_button_link": "",
+            "first_button_text": "Check Out our blog posts",
+            "first_button_link": "shopify://blogs/news",
             "show_second_button": true,
-            "second_button_text": "SUBSCRIBE",
-            "second_button_link": ""
+            "second_button_text": "Our policy",
+            "second_button_link": "shopify://policies/privacy-policy"
           }
         },
         "slide_H6mtct": {
