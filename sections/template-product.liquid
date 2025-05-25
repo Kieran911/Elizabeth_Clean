@@ -31,6 +31,27 @@
   .product--information {
     height: fit-content;
   }
+
+  .variant-pills-container {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .variant-pill {
+    border: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+    border-radius: 999px; /* Creates the pill shape */
+    background-color: #f0f0f0;
+    cursor: pointer;
+    font-size: 0.9rem;
+  }
+
+  .variant-pill--active {
+    border-color: #000; /* Or your active color */
+    background-color: #eee; /* Or your active background */
+    font-weight: bold;
+  }
 </style>
 
 <div x-data="{productModalOpen: false, currentMediaType: null}">
@@ -143,25 +164,18 @@
                   {% unless product.has_only_default_variant %}
                     <variant-selector data-url="{{ product.url }}" data-section="{{ section.id }}">
                       {% for option in product.options_with_values %}
-                        <label for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
-
-                        <div class="my-2">
-                          <select
-                            name="options[{{ option.name | escape }}]"
-                            id="Option-{{ section.id }}-{{ forloop.index0 }}"
-                            class="w-full border py-3 px-3"
-                          >
-                            {% for value in option.values %}
-                              <option
-                                value="{{ value | escape }}"
-                                {% if option.selected_value == value %}
-                                  selected="selected"
-                                {% endif %}
-                              >
-                                {{ value }}
-                              </option>
-                            {% endfor %}
-                          </select>
+                        <label>{{ option.name }}</label>
+                        <div class="variant-pills-container my-2">
+                          {% for value in option.values %}
+                            <button
+                              type="button"
+                              class="variant-pill {% if option.selected_value == value %} variant-pill--active {% endif %}"
+                              data-option-name="{{ option.name | escape }}"
+                              data-option-value="{{ value | escape }}"
+                            >
+                              {{ value }}
+                            </button>
+                          {% endfor %}
                         </div>
                       {% endfor %}
                       <script type="application/json">
@@ -256,11 +270,82 @@
   class VariantSelector extends HTMLElement {
     constructor() {
       super();
-      this.addEventListener('change', this.onVariantChange);
+      this.addEventListener('click', this.onPillClick);
+      this.variantData = JSON.parse(this.querySelector('[type="application/json"]').textContent);
+      this.updatePillsOnLoad(); // Initialize active pills
     }
 
-    onVariantChange() {
-      this.getSelectedOptions();
+    updatePillsOnLoad() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const variantIdFromURL = urlParams.get('variant');
+
+      if (variantIdFromURL) {
+        const initialVariant = this.variantData.find((variant) => variant.id.toString() === variantIdFromURL);
+        if (initialVariant) {
+          initialVariant.options.forEach((optionValue, index) => {
+            const optionName = this.getProductOptions()[index];
+            this.setActivePill(optionName, optionValue);
+          });
+          this.currentVariant = initialVariant;
+          this.updateFormID();
+          this.updatePrice();
+        }
+      } else {
+        // Set initial active pills based on the first variant's options
+        if (this.variantData.length > 0) {
+          this.variantData[0].options.forEach((optionValue, index) => {
+            const optionName = this.getProductOptions()[index];
+            this.setActivePill(optionName, optionValue);
+          });
+          this.currentVariant = this.variantData[0];
+          this.updateFormID();
+          this.updatePrice();
+        }
+      }
+      this.getSelectedOptionsFromPills(); // Initial selection
+      this.getSelectedVariant();
+    }
+
+    getProductOptions() {
+      // Extract option names from the product data
+      if (this.variantData.length > 0 && this.variantData[0].options) {
+        const firstVariant = this.variantData[0];
+        const numOptions = firstVariant.options.length;
+        const optionNames = [];
+        const firstProductOptionKeys = Object.keys(
+          JSON.parse(this.querySelector('[type="application/json"]').textContent)[0]
+        );
+        for (let i = 1; i <= numOptions; i++) {
+          const optionKey = firstProductOptionKeys.find(
+            (key) => key.startsWith('option') && key.endsWith(i.toString())
+          );
+          if (optionKey) {
+            // Need a way to reliably get the actual option names ("Size", "Color", etc.)
+            // This might require accessing the `product.options` data from Liquid
+            const optionIndex = i - 1;
+            const optionNameFromLabel = this.querySelectorAll('label')[optionIndex]?.textContent.trim();
+            if (optionNameFromLabel) {
+              optionNames.push(optionNameFromLabel);
+            } else {
+              // Fallback if label not found (less ideal)
+              optionNames.push(`Option ${i}`);
+            }
+          }
+        }
+        return optionNames;
+      }
+      return [];
+    }
+
+    onPillClick(event) {
+      const target = event.target.closest('.variant-pill');
+      if (!target) return;
+
+      const optionName = target.dataset.optionName;
+      const optionValue = target.dataset.optionValue;
+
+      this.setActivePill(optionName, optionValue);
+      this.getSelectedOptionsFromPills();
       this.getSelectedVariant();
 
       if (this.currentVariant) {
@@ -270,8 +355,28 @@
       }
     }
 
-    getSelectedOptions() {
-      this.options = Array.from(this.querySelectorAll('select'), (select) => select.value);
+    setActivePill(optionName, optionValue) {
+      const pillsContainer = Array.from(this.querySelectorAll('.variant-pills-container')).find((container) => {
+        const firstPill = container.querySelector('.variant-pill');
+        return firstPill?.dataset.optionName === optionName;
+      });
+
+      if (pillsContainer) {
+        pillsContainer.querySelectorAll('.variant-pill').forEach((pill) => {
+          pill.classList.remove('variant-pill--active');
+        });
+        const activePill = Array.from(pillsContainer.querySelectorAll('.variant-pill')).find((pill) => {
+          return pill.dataset.optionValue === optionValue && pill.dataset.optionName === optionName;
+        });
+        activePill?.classList.add('variant-pill--active');
+      }
+    }
+
+    getSelectedOptionsFromPills() {
+      this.options = Array.from(this.querySelectorAll('.variant-pills-container'), (container) => {
+        const activePill = container.querySelector('.variant-pill--active');
+        return activePill ? activePill.dataset.optionValue : null;
+      }).filter(Boolean); // Filter out nulls if no pill is active for an option
     }
 
     getVariantJSON() {
@@ -281,14 +386,21 @@
 
     getSelectedVariant() {
       this.currentVariant = this.getVariantJSON().find((variant) => {
-        const findings = !variant.options
-          .map((option, index) => {
-            return this.options[index] === option;
-          })
-          .includes(false);
+        const variantOptionMatch = variant.options.every((variantOption, index) => {
+          // Need to correctly map the selected pill values to the variant options
+          const optionNameFromVariant = this.getProductOptions()[index];
+          const selectedPillForOption = Array.from(this.querySelectorAll('.variant-pills-container'))
+            .find((container) => {
+              const firstPill = container.querySelector('.variant-pill');
+              return firstPill?.dataset.optionName === optionNameFromVariant;
+            })
+            ?.querySelector('.variant-pill--active')?.dataset.optionValue;
 
-        if (findings) return variant;
+          return selectedPillForOption === variantOption;
+        });
+        return variantOptionMatch;
       });
+      console.log('Selected Variant:', this.currentVariant);
     }
 
     updateURL() {
@@ -297,8 +409,10 @@
     }
 
     updateFormID() {
-      const form_input = document.querySelector('#product-form').querySelector('input[name="id"]');
-      form_input.value = this.currentVariant.id;
+      const form_input = document.querySelector('#product-form')?.querySelector('input[name="id"]');
+      if (form_input) {
+        form_input.value = this.currentVariant.id;
+      }
     }
 
     updatePrice() {
@@ -307,11 +421,11 @@
         .then((responseText) => {
           const id = `price-${this.dataset.section}`;
           const html = new DOMParser().parseFromString(responseText, 'text/html');
-
           const oldPrice = document.getElementById(id);
           const newPrice = html.getElementById(id);
-
-          if (oldPrice && newPrice) oldPrice.innerHTML = newPrice.innerHTML;
+          if (oldPrice && newPrice) {
+            oldPrice.innerHTML = newPrice.innerHTML;
+          }
         });
     }
   }
